@@ -45,7 +45,61 @@ const Home = () => {
           <FriendsCard friends={user?.friends}/>
         </div>
          {/* CENTER */}
-          <div className='flex-1 h-full px-4 flex flex-col gap-6 overflow-y-auto rounded-lg'>
+         <div className='flex-1 h-full px-4 flex flex-col gap-6 overflow-y-auto rounded-lg'>
+
+{/* Activity Center Heading */}
+<div className="w-full py-3 md:py-6 px-4 bg-primary bg-[url('./images/grad1.png')] rounded-lg text-[blue]">
+<p
+  className='text-xl md:text-2xl text-white font-semibold'
+  style={{
+    background: 'linear-gradient(135deg, #DDE6E8, #3398DB)',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+  }}
+>
+  Dynamic Space
+</p>
+
+  <div className="flex gap-6 justify-center mt-4">
+  <div
+className="recording flex gap-3 items-center  text-ascent-1 text-lg md:text-lg border-[white]  rounded-2xl p-4 bg-white bg-opacity-20 backdrop-blur-md"
+><div className="hidden lg:flex bg-[white] w-12 h-9 rounded-full text-white items-center justify-center">
+<i class="fa-solid fa-square blink" style={{color:"#ff3737", scale:"0.9"}}></i><br/>
+</div>
+
+   <span className="text-sm font-medium">3 Connections in ByteMeet</span>
+</div>
+
+
+<div
+className="recording  gap-3 items-center hidden lg:flex  text-ascent-1 text-lg md:text-lg border-[white]  rounded-2xl p-4 bg-white bg-opacity-20 backdrop-blur-md"
+>
+<i class="fa-solid fa-file" style={{color:"#045AD8", scale:"1.5"}}></i><br/>
+
+   <span className="text-sm font-medium">6 are editing ByteDoc</span>
+</div>
+
+
+
+<div
+className="recording flex gap-3 items-center  text-ascent-1 text-lg md:text-lg border-[white]  rounded-2xl p-4 bg-white bg-opacity-20 backdrop-blur-md"
+>
+
+<i class="fa-solid fa-cloud-arrow-up " style={{color:"#045AD8", scale:"1.2"}}></i><br/>
+   <span className="text-sm font-medium">Upload Media to ByteCloud</span>
+</div>
+
+  </div>
+</div>
+
+
+{/* Recording Section */}
+
+
+
+
+
+          
             <form
               onSubmit={handleSubmit(handlePostSubmit)}
               className='bg-primary px-4 rounded-lg'
@@ -127,6 +181,15 @@ const Home = () => {
                   <BsFiletypeGif />
                   <span>Gif</span>
                 </label>
+                <div>
+    <CustomButton
+
+        title='Summarize with AI'
+   containerStyles='bg-[linear-gradient(to_right,#a1c4fd_0%,#c2e9fb_51%,#a1c4fd_100%)] text-[white] py-1 px-4 rounded-full font-semibold text-sm'
+    />
+</div>
+
+
 
                 <div>
                   {posting ? (
@@ -135,12 +198,15 @@ const Home = () => {
                     <CustomButton
                       type='submit'
                       title='Post'
-                      containerStyles='bg-[#0444a4] text-white py-1 px-6 rounded-full font-semibold text-sm'
+                      containerStyles='bg-white text-blue py-1 px-6 rounded-full font-semibold text-sm'
                     />
                   )}
                 </div>
               </div>
             </form>
+
+          
+            
 
             {loading ? (
               <Loading />
@@ -165,8 +231,8 @@ const Home = () => {
         <div className='hidden w-1/4 h-full lg:flex flex-col gap-8 overflow-y-auto'>
             {/* FRIEND REQUEST */}
             <div className='w-full bg-primary shadow-sm rounded-lg px-6 py-5'>
-              <div className='flex items-center justify-between text-xl text-ascent-1 pb-2 border-b border-[#66666645]'>
-                <span> Friend Request</span>
+              <div className='flex items-center justify-between text-xl text-ascent-1 pb-2 border-b border-[#66666645]  '>
+                <span>Stream Request &nbsp; <i className="fa-solid fa-code-pull-request " style={{scale:"0.9"}}></i></span>
                 <span>{friendRequest?.length}</span>
               </div>
 
@@ -210,7 +276,7 @@ const Home = () => {
             {/* SUGGESTED FRIENDS */}
             <div className='w-full bg-primary shadow-sm rounded-lg px-5 py-5'>
               <div className='flex items-center justify-between text-lg text-ascent-1 border-b border-[#66666645]'>
-                <span>Friend Suggestion</span>
+                <span>Stream Suggestions &nbsp;<i class="fa-solid fa-user-plus" style={{scale:"0.9"}}></i> </span>
               </div>
               <div className='w-full flex flex-col gap-4 pt-4'>
                 {suggestedFriends?.map((friend) => (

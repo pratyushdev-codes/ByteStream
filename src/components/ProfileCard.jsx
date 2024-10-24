@@ -42,11 +42,12 @@ const ProfileCard = ({ user }) => {
 
           <div className=''>
             {user?._id === data?._id ? (
-              <LiaEditSolid
-                size={22}
-                className='text-blue cursor-pointer'
-                onClick={() => dispatch(UpdateProfile(true))}
-              />
+              <i class="fa-solid fa-pen-to-square" style={{color:"#045AD8", scale:"1.5"}}  onClick={() => dispatch(UpdateProfile(true))}></i>
+        
+               
+                // <LiaEditSolid
+                // size={22}
+                // className='text-blue cursor-pointer'
             ) : (
               <button
                 className='bg-[#0444a430] text-sm text-white p-1 rounded'
@@ -72,7 +73,7 @@ const ProfileCard = ({ user }) => {
 
         <div className='w-full flex flex-col gap-2 py-4 border-b border-[#66666645]'>
           <p className='text-xl text-ascent-1 font-semibold'>
-            {user?.friends?.length} Friends
+            {user?.friends?.length} Connections
           </p>
 
           <div className='flex items-center justify-between'>
@@ -93,19 +94,20 @@ const ProfileCard = ({ user }) => {
         </div>
 
         <div className='w-full flex flex-col gap-4 py-4 pb-6'>
-          <p className='text-ascent-1 text-lg font-semibold'>Social Profile</p>
+          <p className='text-ascent-1 text-lg font-semibold'>Utility Byte Apps&nbsp; <i class="fa-solid fa-cubes-stacked" style={{scale:"1.1"}}></i> </p>
+
 
           <div className='flex gap-2 items-center text-ascent-2'>
-            <BsInstagram className=' text-xl text-ascent-1' />
-            <span>Instagram</span>
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span>Chat with Documents</span>
           </div>
           <div className='flex gap-2 items-center text-ascent-2'>
-            <FaTwitterSquare className=' text-xl text-ascent-1' />
-            <span>X</span>
+          <i class="fa-solid fa-list-check"></i>
+            <span>Manage Your Tasks</span>
           </div>
           <div className='flex gap-2 items-center text-ascent-2'>
-            <BsFacebook className=' text-xl text-ascent-1' />
-            <span>Facebook</span>
+          <i class="fa-solid fa-calendar-days"></i>
+            <span>Calendar</span>
           </div>
         </div>
       </div>
