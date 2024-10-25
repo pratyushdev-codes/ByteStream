@@ -185,7 +185,7 @@ className="recording flex gap-3 items-center  text-ascent-1 text-lg md:text-lg b
     <CustomButton
 
         title='Summarize with AI'
-   containerStyles='bg-[linear-gradient(to_right,#a1c4fd_0%,#c2e9fb_51%,#a1c4fd_100%)] text-[white] py-1 px-4 rounded-full font-semibold text-sm'
+   containerStyles='bg-[linear-gradient(to_right,#a1c4fd_0%,#c2e9fb_51%,#a1c4fd_100%)] text-[grey] py-1 px-4 rounded-full font-semibold text-sm'
     />
 </div>
 
