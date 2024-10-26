@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { dummyUser } from "../assets";
+
 
 const initialState = {
-    user: JSON.parse(window?.localStorage.getItem('user')) ?? dummyUser,
+    user: JSON.parse(window?.localStorage.getItem('user')) ,
     edit: false
+
+
 };
 
 const userSlice = createSlice({
@@ -26,7 +28,7 @@ const userSlice = createSlice({
 
 export default userSlice.reducer;
 
-export function Login(user){
+export function userLogin(user){
     return(dispatch, getState) => {
         dispatch(userSlice.actions.login(user));
     }

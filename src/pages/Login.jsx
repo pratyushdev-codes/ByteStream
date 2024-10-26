@@ -8,6 +8,8 @@ import { AiOutlineInteraction } from "react-icons/ai";
 import { ImConnection } from "react-icons/im";
 import { CustomButton, Loading, TextInput } from "../components";
 import { BgImage } from "../assets";
+import { userLogin } from "../redux/userSlice";
+import { apiRequest } from "../utils";
 
 const Login = () => {
   const {
@@ -18,11 +20,42 @@ const Login = () => {
     mode: "onChange",
   });
 
-  const onSubmit = async (data) => {};
-
   const [errMsg, setErrMsg] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
+
+  const onSubmit = async (data) => {
+    
+    setIsSubmitting(true);
+
+    try {
+      
+      const res = await apiRequest({
+        url: "/auth/login",
+        data: data,
+        method: "POST",
+      });
+
+      if(res?.status === 'failed'){
+        setErrMsg(res);
+      }
+      else{
+        setErrMsg("");
+
+        const newData = {token: res?.token, ...res?.user};
+        dispatch(userLogin(newData));
+        window.location.replace("/");
+      }
+
+      setIsSubmitting(false);
+
+    } catch (error) {
+      console.log(error);
+      setIsSubmitting(false);
+    }
+
+  };
+
   return (
     <div className='bg-bgColor w-full h-[100vh] flex items-center justify-center p-6'>
       <div className='w-full md:w-2/3 h-fit lg:h-full 2xl:h-5/6 py-8 lg:py-0 flex bg-primary rounded-xl overflow-hidden shadow-xl'>
@@ -33,14 +66,14 @@ const Login = () => {
               <TbSocial />
             </div>
             <span className='text-2xl text-[#065ad8] font-semibold'>
-              ShareFun
+              Sociate
             </span>
           </div>
 
           <p className='text-ascent-1 text-base font-semibold'>
             Log in to your account
           </p>
-          <span className='text-sm mt-2 text-ascent-2'>Welcome back</span>
+          <span className='text-sm mt-2 text-ascent-2 '>Welcome back</span>
 
           <form
             className='py-8 flex flex-col gap-5='
@@ -64,7 +97,7 @@ const Login = () => {
               label='Password'
               placeholder='Password'
               type='password'
-              styles='w-full rounded-full'
+              styles='w-full rounded-full '
               labelStyle='ml-2'
               register={register("password", {
                 required: "Password is required!",
@@ -74,15 +107,15 @@ const Login = () => {
 
             <Link
               to='/reset-password'
-              className='text-sm text-right text-blue font-semibold'
+              className='text-sm mt-2 mb-2 text-right text-blue font-semibold'
             >
               Forgot Password ?
             </Link>
 
             {errMsg?.message && (
               <span
-                className={`text-sm ${
-                  errMsg?.status == "failed"
+                className={`text-sm mb-4 ${
+                  errMsg?.status === "failed"
                     ? "text-[#f64949fe]"
                     : "text-[#2ba150fe]"
                 } mt-0.5`}
@@ -117,7 +150,7 @@ const Login = () => {
           <div className='relative w-full flex items-center justify-center'>
             <img
               src={BgImage}
-              alt='Bg Image'
+              alt='Bg'
               className='w-48 2xl:w-64 h-48 2xl:h-64 rounded-full object-cover'
             />
 
@@ -126,12 +159,12 @@ const Login = () => {
               <span className='text-xs font-medium'>Share</span>
             </div>
 
-            <div className='absolute flex items-center gap-1 bg-white left-10 top-6 py-2 px-5 rounded-full'>
+            <div className='absolute flex items-center gap-1 bg-white left-9 top-6 py-2 px-5 rounded-full'>
               <ImConnection />
               <span className='text-xs font-medium'>Connect</span>
             </div>
 
-            <div className='absolute flex items-center gap-1 bg-white left-12 bottom-6 py-2 px-5 rounded-full'>
+            <div className='absolute flex items-center gap-1 bg-white left-10 bottom-6 py-2 px-5 rounded-full'>
               <AiOutlineInteraction />
               <span className='text-xs font-medium'>Interact</span>
             </div>
@@ -139,7 +172,7 @@ const Login = () => {
 
           <div className='mt-16 text-center'>
             <p className='text-white text-base'>
-              Connect with friends & have share for fun
+              Connecting Friends, Sharing Joy: Where Fun Never Ends!
             </p>
             <span className='text-sm text-white/80'>
               Share memories with friends and the world.
