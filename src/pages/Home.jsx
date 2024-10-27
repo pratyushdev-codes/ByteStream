@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   CustomButton,
   EditProfile,
@@ -10,17 +10,20 @@ import {
   TextInput,
   TopBar,
 } from "../components";
-import { suggest, requests, posts } from "../assets/data";
-import { Link } from "react-router-dom";
+import {apiRequest, deletePost, fetchPosts, getUserInfo, handleFileUpload, handleView, likePost, sendFriendRequest} from "../utils/index.js";
+import { useNavigate } from "react-router-dom";
 import { NoProfile } from "../assets";
 import { BsFiletypeGif, BsPersonFillAdd } from "react-icons/bs";
 import { BiImages, BiSolidVideo } from "react-icons/bi";
 import { useForm } from "react-hook-form";
+import { userLogin } from "../redux/userSlice.js";
+import { Link } from "react-router-dom";
 const Home = () => {
 
   const { user, edit } = useSelector((state) => state.user);
-  const [friendRequest, setFriendRequest] = useState(requests);
-  const [suggestedFriends, setSuggestedFriends] = useState(suggest);
+  const [friendRequest, setFriendRequest] = useState([]);
+  const {posts} = useSelector((state) => state.posts);
+  const [suggestedFriends, setSuggestedFriends] = useState([]);
   const [errMsg, setErrMsg] = useState("");
   const [file, setFile] = useState(null);
   const [posting, setPosting] = useState(false);
@@ -29,10 +32,166 @@ const Home = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
-  const handlePostSubmit = async (data) => {};
+  const dispatch = useDispatch();
+  
+  const getUser = async() => {
+
+    const res = await getUserInfo(user?.token);
+    const newData = {token: user?.token, ...res}
+    dispatch(userLogin(newData));
+
+  }
+
+  const fetchPost = async() => {
+
+    await fetchPosts(user?.token, dispatch);
+    setLoading(false);
+
+  }
+
+  const handlePostSubmit = async (data) => {
+
+    setPosting(true);
+    setErrMsg("");
+
+    try {
+      
+      const uri = file && (await handleFileUpload(file));
+      const newData = uri ? {...data, image:uri} : data;
+      //If an image is existing in post then, we append that image to the post data which already includes the post info such as description, user, and time.
+
+      const res = await apiRequest({
+        url: "posts/create-post",
+        data: newData,
+        token: user?.token,
+        method: "POST"
+      });
+
+
+            if(res?.status === 'failed'){
+        setErrMsg(res);
+      }
+      else{
+        setErrMsg("");
+        reset({description:""});
+        setFile(null);
+        await fetchPost();
+      }
+      
+      setPosting(false);
+
+    } catch (error) {
+      console.log(error)
+      setPosting(false);
+      setErrMsg(error);
+    }
+
+  };
+  const handleLikePost = async(uri) => {
+
+    await likePost({uri:uri, token:user?.token});
+    await fetchPost();
+
+  }
+  const handleDelete = async(id) => {
+
+    await deletePost(id, user?.token);
+    await fetchPost();  
+
+  }
+  const fetchFriendRequests = async() => {
+
+    try {
+          const res = await apiRequest({
+            url: "/users/get-friend-request/",
+            method: "POST",
+            token: user?.token,
+          });
+
+          setFriendRequest(res?.data);
+        } catch (error) {
+          console.log(error);
+        }
+
+  }
+  const fetchSuggestedFriends = async() => {
+
+    try {
+          const res = await apiRequest({
+            url: "/users/suggested-friends/",
+            token: user?.token,
+            method: "POST",
+          });
+          setSuggestedFriends(res?.data);
+        } catch (error) {
+          console.log(error);
+        }
+
+  }
+  const handleFriendRequest = async(id) => {
+
+    try {
+      await sendFriendRequest(user.token, id);
+        await fetchSuggestedFriends();
+        await fetchFriendRequests();
+        getUser();
+      } 
+    catch (error) {
+    console.log(error);
+      }
+  }
+  
+  const acceptFriendRequest = async(id, status) => {
+
+    try {
+      
+      await apiRequest({
+        url: "/users/accept-request/",
+        token: user?.token,
+        method: "POST",
+        data: {
+          rid: id,
+          status
+        }
+      });
+
+        await fetchSuggestedFriends();
+        await fetchFriendRequests();
+      getUser();
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
+  useEffect(() => {
+    setLoading(true);
+    getUser();
+    fetchPost();
+    fetchFriendRequests();
+    fetchSuggestedFriends();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    getUser();
+    fetchPost();
+    fetchFriendRequests();
+    fetchSuggestedFriends();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [edit]);
+
+//Edit is a state in userSlice which is set to true when the user clicks the edit button in ProfileCard. When the edit state changes, the useEffect hook will run again and fetch the user data from the server. For example - when user updates profile picture then after updating, edit will become false, so if we again fetch posts, the post which this user itself had posted will come with updated profile picture otherwise it will come with the old profile picture.
+
+// useEffect hook here is to set the loading state to true initially and then fetch user data, posts, friend requests, and suggested friends from the server when the component renders.
+
+// When the component mounts or when the edit state changes, the useEffect runs.
+
+  const navigate = useNavigate();
 
   return (
     <>
