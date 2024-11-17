@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { CustomButton, Loading, TextInput } from "../components";
-import { apiRequest } from "../utils";
+import { apiRequest } from "../Utils";
 
 const ResetPassword = () => {
   const [errMsg, setErrMsg] = useState("");

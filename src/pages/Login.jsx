@@ -9,7 +9,7 @@ import { ImConnection } from "react-icons/im";
 import { CustomButton, Loading, TextInput } from "../components";
 import { BgImage } from "../assets";
 import { userLogin } from "../redux/userSlice";
-import { apiRequest } from "../utils";
+import { apiRequest } from "../Utils";
 
 const Login = () => {
   const {
@@ -62,11 +62,9 @@ const Login = () => {
         {/* LEFT */}
         <div className='w-full lg:w-1/2 h-full p-10 2xl:px-20 flex flex-col justify-center '>
           <div className='w-full flex gap-2 items-center mb-6'>
-            <div className='p-2 bg-[#065ad8] rounded text-white'>
-              <TbSocial />
-            </div>
+          <img src="./images/ByteStream.png" style={{ width: "50px", height: "50px", animation: "rotate 12s linear 0s infinite normal none running", }} alt="ByteStream" />
             <span className='text-2xl text-[#065ad8] font-semibold'>
-              Sociate
+              ByteStream
             </span>
           </div>
 
@@ -146,10 +144,9 @@ const Login = () => {
           </p>
         </div>
         {/* RIGHT */}
-        <div className='hidden w-1/2 h-full lg:flex flex-col items-center justify-center bg-blue'>
+        <div className='hidden w-1/2 h-full lg:flex flex-col items-center justify-center bg-[#0d1014]'>
           <div className='relative w-full flex items-center justify-center'>
-            <img
-              src={BgImage}
+             <img src="./images/unnamed.webp"
               alt='Bg'
               className='w-48 2xl:w-64 h-48 2xl:h-64 rounded-full object-cover'
             />

@@ -35,12 +35,8 @@ const TopBar = () => {
           {/* <TbSocial /> */}
           <img src="./images/ByteStream.png" style={{ width: "50px", height: "50px", animation: "rotate 12s linear 0s infinite normal none running", }} alt="ByteStream" />
         </div>
-        <span className='text-xl md:text-2xl text-[#065ad8] font-semibold' style={{background: 'linear-gradient(to right, #045AD8 0%, #C8DBE6 100%)',background:"#045AD8",
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',}}>
-         <span style={{    background: 'linear-gradient(135deg, #DDE6E8, #3398DB)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent', }}> ByteStream.</span>
+        <span className='text-xl md:text-2xl text-[#065ad8] font-semibold'>
+          Byte<span style={{ color: "white" }}>Stream</span>
         </span>
       </Link>
 

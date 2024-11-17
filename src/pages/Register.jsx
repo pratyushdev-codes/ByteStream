@@ -7,7 +7,7 @@ import { AiOutlineInteraction } from "react-icons/ai";
 import { ImConnection } from "react-icons/im";
 import { CustomButton, Loading, TextInput } from "../components";
 import { BgImage } from "../assets";
-import { apiRequest, handleFileUpload } from "../utils";
+import { apiRequest, handleFileUpload } from "../Utils";
 
 const Register = () => {
 
@@ -69,11 +69,9 @@ const Register = () => {
         {/* RIGHT */}
         <div className='w-full lg:w-1/2 h-full p-10 2xl:px-20 flex flex-col justify-center '>
           <div className='w-full flex gap-2 items-center mb-4'>
-            <div className='p-2 bg-[#065ad8] rounded text-white'>
-              <TbSocial />
-            </div>
+            <img src="./images/ByteStream.png" style={{ width: "50px", height: "50px", animation: "rotate 12s linear 0s infinite normal none running", }} alt="ByteStream" />
             <span className='text-2xl text-[#065ad8] font-semibold'>
-              Sociate
+              ByteStream
             </span>
           </div>
 
@@ -91,7 +89,8 @@ const Register = () => {
                 label='First Name'
                 placeholder='First Name'
                 type='text'
-                styles='w-full'
+                styles='w-full rounded-full'
+                
                 register={register("firstName", {
                   required: "First Name is required!",
                 })}
@@ -102,7 +101,7 @@ const Register = () => {
                 label='Last Name'
                 placeholder='Last Name'
                 type='lastName'
-                styles='w-full'
+                styles='w-full  rounded-full'
                 register={register("lastName", {
                   required: "Last Name do no match",
                 })}
@@ -118,7 +117,7 @@ const Register = () => {
               register={register("email", {
                 required: "Email Address is required",
               })}
-              styles='w-full'
+              styles='w-full  rounded-full'
               error={errors.email ? errors.email.message : ""}
             />
 
@@ -128,7 +127,7 @@ const Register = () => {
                 label='Password'
                 placeholder='Password'
                 type='password'
-                styles='w-full'
+                styles='w-full  rounded-full'
                 register={register("password", {
                   required: "Password is required!",
                 })}
@@ -139,7 +138,7 @@ const Register = () => {
                 label='Confirm Password'
                 placeholder='Password'
                 type='password'
-                styles='w-full'
+                styles='w-full  rounded-full'
                 register={register("cPassword", {
                   validate: (value) => {
                     const { password } = getValues();
@@ -203,12 +202,11 @@ const Register = () => {
           </p>
         </div>
         {/* LEFT */}
-        <div className='hidden w-1/2 h-full lg:flex flex-col items-center justify-center bg-blue'>
+        <div className='hidden w-1/2 h-full lg:flex flex-col items-center justify-center bg-[#0d1014]'>
           <div className='relative w-full flex items-center justify-center'>
-            <img
-              src={BgImage}
+             <img src="./images/Group_34.1112b5fbb5287de0fd42.png"
               alt='Bg'
-              className='w-48 2xl:w-64 h-48 2xl:h-64 rounded-full object-cover'
+              className='w-50 2xl:w-64 h-50 2xl:h-64 object-cover'
             />
 
             <div className='absolute flex items-center gap-1 bg-white right-10 top-10 py-2 px-5 rounded-full'>
