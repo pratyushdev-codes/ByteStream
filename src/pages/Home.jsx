@@ -18,6 +18,8 @@ import { BiImages, BiSolidVideo } from "react-icons/bi";
 import { useForm } from "react-hook-form";
 import { userLogin } from "../redux/userSlice.js";
 import { Link } from "react-router-dom";
+import Dock from "../components/ui/Dock";
+
 const Home = () => {
 
   const { user, edit } = useSelector((state) => state.user);
@@ -219,7 +221,9 @@ const Home = () => {
   Dynamic Space
 </p>
 
+
   <div className="flex gap-6 justify-center mt-4">
+
   <div
 className="recording flex gap-3 items-center  text-ascent-1 text-lg md:text-lg border-[white]  rounded-2xl p-4 bg-white bg-opacity-20 backdrop-blur-md"
 ><div className="hidden lg:flex bg-[white] w-12 h-9 rounded-full text-white items-center justify-center">
@@ -362,6 +366,7 @@ className="recording flex gap-3 items-center  text-ascent-1 text-lg md:text-lg b
                   )}
                 </div>
               </div>
+              <Dock/>
             </form>
 
           

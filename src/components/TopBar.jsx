@@ -71,9 +71,27 @@ const TopBar = () => {
       <div className='flex gap-3 items-center text-ascent-1 text-md md:text-xl'>
 
         {/* Direct Message */}
-        <div className="hidden lg:flex bg-[#065ad8] w-10 h-10 rounded-full text-white items-center justify-center">
-          <i class="fa-solid fa-message" style={{ scale: "0.9" }}></i>
-        </div>
+      
+        <div className="hidden lg:flex bg-[#065ad8] w-10 h-10 rounded-full text-white items-center justify-center cursor-pointer" 
+  onClick={() => {
+    // Open a new window with the specified URL, dimensions, and position
+    let newWindow = window.open(
+      'https://intelsy.onrender.com/', 
+      'example', 
+      'width=700,height=700,left=380,top=100'
+    );
+    newWindow.focus();
+
+    // Add content to the new window once it has loaded
+    newWindow.onload = function() {
+      let html = `<div style="font-size:30px">ByteChat</div>`;
+      newWindow.document.body.insertAdjacentHTML('afterbegin', html);
+    };
+  }}
+>
+  <i className="fa-solid fa-message" style={{ scale: "0.9" }}></i>
+</div>
+
 
         <div className="hidden lg:flex bg-[#1d2224] w-10 h-10 rounded-full text-white items-center justify-center">
           <a href="" target="_blank" rel="noopener noreferrer">
