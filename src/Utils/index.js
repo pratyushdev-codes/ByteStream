@@ -1,29 +1,52 @@
 import axios from 'axios'
 import { SetPosts } from '../redux/postSlice';
-const API_URL = 'http://localhost:8080';
+const API_URL = 'http://localhost:8080/';
 
 export const API = axios.create({
     baseURL: API_URL,
     responseType: 'json'
 });
 
+// export const apiRequest = async({url, token, data, method}) => {
+//     try {
+//         const result = await API(url, {
+//             method: method || "GET",
+//             data: data,
+//             headers: {
+//                 "content-type": 'application/json',
+//                 Authorization: token ? `Bearer ${token}` : ""
+//             }
+//         });
+//         return result.data;
+//     } catch (error) {
+//         console.error('API Request Error:', error);
+//         // Log more details if available
+//         if (error.response) {
+//             console.log('Response Error:', error.response);
+//             return { status: error.response.data.success, message: error.response.data.message };
+//         } else {
+//             console.log('Network or other error:', error.message);
+//             return { status: 'error', message: error.message };
+//         }
+//     }
+// }
 export const apiRequest = async({url, token, data, method}) => {
     try {
-        const result = await API(url, {
-            method: method  || "GET",
+        const result = await API({
+            url: url,
+            method: method || "GET",
             data: data,
             headers: {
                 "content-type": 'application/json',
-                Authorization: token ? `Bearer ${token}`: ""
+                Authorization: token ? `Bearer ${token}` : ""
             }
         });
-        // console.log(result.data);   
+        
+        console.log('API Request Result:', result);
         return result.data;
-
     } catch (error) {
-        const err = error.response.data;
-        console.log(err);
-        return {status: err.success, message: err.message};
+        console.error('API Request Error:', error.response || error);
+        throw error; // Re-throw to allow caller to handle
     }
 }
 
@@ -31,7 +54,7 @@ export const handleFileUpload = async(uploadFile) => {
 
     const formData = new FormData();
     formData.append('file', uploadFile);
-    formData.append('upload_preset', 'socialmedia');
+    formData.append('upload_preset', 'bytestream');
 
     /* A new instance of FormData is created. 
     FormData objects provide a way to easily construct a set of key/value pairs representing form fields and their values, which can then be sent using XMLHttpRequest or the Fetch API. 
@@ -40,7 +63,7 @@ export const handleFileUpload = async(uploadFile) => {
 
     try {
         const response = await axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_ID}/image/upload`, formData);
-        console.log(formData)
+
         return response.data.secure_url;
 
     } catch (error) {
@@ -48,19 +71,33 @@ export const handleFileUpload = async(uploadFile) => {
     }
 }
 
+// export const fetchPosts = async(token, dispatch, uri, data) => {
+//     try {
+
+//         const res = await apiRequest({
+//             url: uri || "/posts",
+//             token: token,
+//             data: data || {},
+//             method: "POST"
+//         })
+//         // console.log(res)
+//         dispatch(SetPosts(res?.data));
+//         return;
+
+//     } catch (error) {
+//         console.log(error)
+//     }
+// }
 export const fetchPosts = async(token, dispatch, uri, data) => {
     try {
-
         const res = await apiRequest({
             url: uri || "/posts",
             token: token,
             data: data || {},
             method: "POST"
         })
-        console.log(res)
         dispatch(SetPosts(res?.data));
         return;
-
     } catch (error) {
         console.log(error)
     }
@@ -88,7 +125,7 @@ export const fetchPosts = async(token, dispatch, uri, data) => {
 
   }
 export const likePost = async({uri, token}) => {
-console.log(uri)
+// console.log(uri)
     try {
         
         await apiRequest({

@@ -67,7 +67,7 @@ const Home = () => {
       //If an image is existing in post then, we append that image to the post data which already includes the post info such as description, user, and time.
 
       const res = await apiRequest({
-        url: "/posts/create-post",
+        url: "posts/create-post",
         data: newData,
         token: user?.token,
         method: "POST"
@@ -192,6 +192,7 @@ const Home = () => {
 // useEffect hook here is to set the loading state to true initially and then fetch user data, posts, friend requests, and suggested friends from the server when the component renders.
 
 // When the component mounts or when the edit state changes, the useEffect runs.
+
   const navigate = useNavigate();
 
   return (
@@ -270,10 +271,10 @@ className="recording flex gap-3 items-center  text-ascent-1 text-lg md:text-lg b
                 <img
                   src={user?.profileUrl ?? NoProfile}
                   alt='User Image'
-                  className='w-12 h-12 rounded-full object-cover'
+                  className='w-14 h-14 rounded-full object-cover'
                 />
                 <TextInput
-                  styles='w-full rounded-full py-4'
+                  styles='w-full rounded-full py-5'
                   placeholder="What's on your mind...."
                   name='description'
                   register={register("description", {
@@ -352,20 +353,24 @@ className="recording flex gap-3 items-center  text-ascent-1 text-lg md:text-lg b
 </div>
 
 
-<div>
+
+                <div>
                   {posting ? (
                     <Loading />
                   ) : (
                     <CustomButton
                       type='submit'
                       title='Post'
-                      containerStyles='bg-[#0444a4] text-white py-1 px-6 rounded-full font-semibold text-sm'
+                      containerStyles='bg-white text-blue py-1 px-6 rounded-full font-semibold text-sm'
                     />
                   )}
                 </div>
               </div>
               <Dock/>
             </form>
+
+          
+            
 
             {loading ? (
               <Loading />
@@ -386,12 +391,12 @@ className="recording flex gap-3 items-center  text-ascent-1 text-lg md:text-lg b
             )}
           </div>
 
-          {/* RIGJT */}
-          <div className='hidden w-1/4 h-full lg:flex flex-col gap-8 overflow-y-auto'>
+        {/*Right*/}       
+        <div className='hidden w-1/4 h-full lg:flex flex-col gap-8 overflow-y-auto'>
             {/* FRIEND REQUEST */}
             <div className='w-full bg-primary shadow-sm rounded-lg px-6 py-5'>
-              <div className='flex items-center justify-between text-xl text-ascent-1 pb-2 border-b border-[#66666645]'>
-                <span> Friend Request</span>
+              <div className='flex items-center justify-between text-xl text-ascent-1 pb-2 border-b border-[#66666645]  '>
+                <span>Stream Request &nbsp; <i className="fa-solid fa-code-pull-request " style={{scale:"0.9"}}></i></span>
                 <span>{friendRequest?.length}</span>
               </div>
 
@@ -420,7 +425,7 @@ className="recording flex gap-3 items-center  text-ascent-1 text-lg md:text-lg b
                     <div className='flex gap-1'>
                       <CustomButton
                         title='Accept'
-                        containerStyles='bg-[#0444a4] text-xs text-white px-1.5 py-1 rounded-full'
+                        containerStyles='bg-white text-xs text-[#045AD8] px-1.5 py-1 rounded-full'
                       />
                       <CustomButton
                         title='Deny'
@@ -435,7 +440,7 @@ className="recording flex gap-3 items-center  text-ascent-1 text-lg md:text-lg b
             {/* SUGGESTED FRIENDS */}
             <div className='w-full bg-primary shadow-sm rounded-lg px-5 py-5'>
               <div className='flex items-center justify-between text-lg text-ascent-1 border-b border-[#66666645]'>
-                <span>Friend Suggestion</span>
+                <span>Stream Suggestions &nbsp;<i class="fa-solid fa-user-plus" style={{scale:"0.9"}}></i> </span>
               </div>
               <div className='w-full flex flex-col gap-4 pt-4'>
                 {suggestedFriends?.map((friend) => (
@@ -480,8 +485,10 @@ className="recording flex gap-3 items-center  text-ascent-1 text-lg md:text-lg b
       </div>
 
       {edit && <EditProfile />}
-    </>
-  );
-};
+      
+      </>
+      
+  )
+}
 
-export default Home;
+export default Home
