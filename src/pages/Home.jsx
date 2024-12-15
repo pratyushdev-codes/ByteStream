@@ -213,9 +213,9 @@ const Home = () => {
          <div className='flex-1 h-full px-4 flex flex-col gap-6 overflow-y-auto rounded-lg'>
 
 {/* Activity Center Heading */}
-<div className="w-full py-3 md:py-6 px-4 bg-primary bg-[url('./images/grad1.png')] rounded-lg text-[blue]">
+<div className="w-full py-4 md:py-6 px-4 bg-primary bg-[url('./images/grad1.png')] rounded-lg text-[blue]">
 <p
-  className='text-xl md:text-2xl text-white font-semibold'
+  className='text-xl md:text-3xl text-white font-semibold'
   style={{
     background: 'linear-gradient(135deg, #DDE6E8, #3398DB)',
     WebkitBackgroundClip: 'text',

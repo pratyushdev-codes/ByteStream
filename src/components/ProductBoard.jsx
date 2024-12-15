@@ -1,10 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { PlusCircle, Calendar, CheckCircle2, Clock, ListTodo, ChevronDown, Trash2 } from 'lucide-react';
+import { PlusCircle, Calendar, CheckCircle2, Clock, ListTodo } from 'lucide-react';
+import { TaskChart } from './TaskChart';
+import { TaskColumn } from './TaskColumn';
 
 function ProductBoard() {
   const [tasks, setTasks] = useState(() => {
     const savedTasks = localStorage.getItem('kanbanTasks');
     return savedTasks ? JSON.parse(savedTasks) : [];
+  });
+
+  const [taskHistory, setTaskHistory] = useState(() => {
+    const savedHistory = localStorage.getItem('taskHistory');
+    return savedHistory ? JSON.parse(savedHistory) : [
+      {
+        date: new Date().toLocaleDateString(),
+        todo: 0,
+        inProgress: 0,
+        done: 0
+      }
+    ];
   });
 
   const [newTask, setNewTask] = useState('');
@@ -13,6 +27,29 @@ function ProductBoard() {
 
   useEffect(() => {
     localStorage.setItem('kanbanTasks', JSON.stringify(tasks));
+
+    const today = new Date().toLocaleDateString();
+    const todayStats = {
+      date: today,
+      todo: tasks.filter(t => t.status === 'todo').length,
+      inProgress: tasks.filter(t => t.status === 'inProgress').length,
+      done: tasks.filter(t => t.status === 'done').length
+    };
+
+    setTaskHistory(prev => {
+      const history = [...prev];
+      const todayIndex = history.findIndex(h => h.date === today);
+
+      if (todayIndex >= 0) {
+        history[todayIndex] = todayStats;
+      } else {
+        history.push(todayStats);
+      }
+
+      const last7Days = history.slice(-7);
+      localStorage.setItem('taskHistory', JSON.stringify(last7Days));
+      return last7Days;
+    });
   }, [tasks]);
 
   const addTask = (e) => {
@@ -26,7 +63,7 @@ function ProductBoard() {
       dueDate: dueDate || new Date().toISOString().split('T')[0],
     };
 
-    setTasks([...tasks, task]);
+    setTasks(prev => [...prev, task]);
     setNewTask('');
     setDueDate('');
     setIsFormOpen(false);
@@ -42,103 +79,48 @@ function ProductBoard() {
     setTasks(tasks.filter(task => task.id !== taskId));
   };
 
-  const getColumnTasks = (status) => {
-    return tasks.filter(task => task.status === status);
-  };
-
   const stats = {
     total: tasks.length,
-    todo: getColumnTasks('todo').length,
-    inProgress: getColumnTasks('inProgress').length,
-    done: getColumnTasks('done').length,
+    todo: tasks.filter(t => t.status === 'todo').length,
+    inProgress: tasks.filter(t => t.status === 'inProgress').length,
+    done: tasks.filter(t => t.status === 'done').length,
   };
 
-  const TaskColumn = ({ status, title, icon: Icon }) => (
-    <div className="flex-1 min-w-[300px] bg-gray-900 rounded-lg p-4">
-      <div className="flex items-center gap-2 mb-4">
-        <Icon className="w-5 h-5 text-gray-400" />
-        <h2 className="text-lg font-semibold text-gray-200">{title}</h2>
-        <span className="ml-auto bg-gray-800 text-gray-400 px-2 py-1 rounded-full text-sm">
-          {getColumnTasks(status).length}
-        </span>
-      </div>
-      <div className="space-y-3">
-        {getColumnTasks(status).map(task => (
-          <div key={task.id} className="bg-gray-800 p-3 rounded-lg shadow-lg">
-            <div className="flex justify-between items-start mb-2">
-              <h3 className="text-gray-200 font-medium">{task.title}</h3>
-              <button 
-                onClick={() => deleteTask(task.id)}
-                className="text-gray-500 hover:text-red-400"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
-            </div>
-            <div className="flex items-center text-sm text-gray-400 mb-3">
-              <Calendar className="w-4 h-4 mr-1" />
-              <span>{task.dueDate}</span>
-            </div>
-            <div className="flex gap-2">
-              {status !== 'todo' && (
-                <button
-                  onClick={() => moveTask(task.id, 'todo')}
-                  className="text-xs px-2 py-1 rounded bg-gray-700 text-gray-300 hover:bg-gray-600"
-                >
-                  To Do
-                </button>
-              )}
-              {status !== 'inProgress' && (
-                <button
-                  onClick={() => moveTask(task.id, 'inProgress')}
-                  className="text-xs px-2 py-1 rounded bg-gray-700 text-gray-300 hover:bg-gray-600"
-                >
-                  In Progress
-                </button>
-              )}
-              {status !== 'done' && (
-                <button
-                  onClick={() => moveTask(task.id, 'done')}
-                  className="text-xs px-2 py-1 rounded bg-gray-700 text-gray-300 hover:bg-gray-600"
-                >
-                  Done
-                </button>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-
   return (
-    <div className="min-h-screen bg-gray-950 text-gray-100 p-8">
+<div className="min-h-screen bg-[#141618] text-gray-100 p-8 w-full h-auto max-w-full overflow-auto rounded-lg">
+
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold">Project Kanban</h1>
+          <h1  className='text-xl md:text-3xl text-white font-semibold'
+  style={{
+    background: 'linear-gradient(135deg, #DDE6E8, #DDE6E8, #3398DB)',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+  }} >Project Board</h1>
           <button
             onClick={() => setIsFormOpen(!isFormOpen)}
-            className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-lg transition-colors"
+            className="flex items-center gap-2 bg-gray-800 px-4 py-2 rounded-full transition-colors text-white" 
           >
-            <PlusCircle className="w-5 h-5" />
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#D9D9D9"><path d="M680-80v-120H560v-80h120v-120h80v120h120v80H760v120h-80Zm-480-80q-33 0-56.5-23.5T120-240v-480q0-33 23.5-56.5T200-800h40v-80h80v80h240v-80h80v80h40q33 0 56.5 23.5T760-720v244q-20-3-40-3t-40 3v-84H200v320h280q0 20 3 40t11 40H200Zm0-480h480v-80H200v80Zm0 0v-80 80Z"/></svg>
             Add Task
           </button>
         </div>
 
         {isFormOpen && (
-          <form onSubmit={addTask} className="mb-8 bg-gray-900 p-4 rounded-lg">
+          <form onSubmit={addTask} className="mb-8 backdrop-blur-lg bg-white/5 p-4 rounded-lg border border-white/10">
             <div className="flex gap-4">
               <input
                 type="text"
                 value={newTask}
                 onChange={(e) => setNewTask(e.target.value)}
                 placeholder="Enter task title"
-                className="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-gray-100 focus:outline-none focus:border-indigo-500"
+                className="flex-1 bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-gray-100 focus:outline-none focus:border-indigo-400"
               />
               <input
                 type="date"
                 value={dueDate}
                 onChange={(e) => setDueDate(e.target.value)}
-                className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-gray-100 focus:outline-none focus:border-indigo-500"
+                className="bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-gray-100 focus:outline-none focus:border-indigo-500"
               />
               <button
                 type="submit"
@@ -150,45 +132,75 @@ function ProductBoard() {
           </form>
         )}
 
-        <div className="flex gap-6 mb-8 overflow-x-auto pb-4">
-          <TaskColumn status="todo" title="To Do" icon={ListTodo} />
-          <TaskColumn status="inProgress" title="In Progress" icon={Clock} />
-          <TaskColumn status="done" title="Done" icon={CheckCircle2} />
+        <div className="flex gap-4  overflow-x-auto pb-4 ">
+          <TaskColumn 
+            status="todo" 
+            title="To Do" 
+            icon={ListTodo}
+            tasks={tasks}
+            onMoveTask={moveTask}
+            onDeleteTask={deleteTask}
+          />
+          <TaskColumn 
+            status="inProgress" 
+            title="In Progress" 
+            icon={Clock}
+            tasks={tasks}
+            onMoveTask={moveTask}
+            onDeleteTask={deleteTask}
+          />
+          <TaskColumn 
+            status="done" 
+            title="Done" 
+            icon={CheckCircle2}
+            tasks={tasks}
+            onMoveTask={moveTask}
+            onDeleteTask={deleteTask}
+          />
         </div>
 
-        <div className="bg-gray-900 rounded-lg p-6">
-          <h2 className="text-xl font-semibold mb-4">Progress Dashboard</h2>
-          <div className="grid grid-cols-4 gap-4">
-            <div className="bg-gray-800 p-4 rounded-lg">
-              <div className="text-gray-400 mb-1">Total Tasks</div>
-              <div className="text-2xl font-bold">{stats.total}</div>
+        <div className="grid gap-4">
+          <div className="backdrop-blur-lg bg-white/5 rounded-lg p-6 border border-white/10">
+            <h2 className="text-xl font-semibold mb-4 text-white">Progress Dashboard</h2>
+            <div className="grid grid-cols-4 gap-4">
+              <div className="backdrop-blur-lg bg-white/5 p-4 rounded-lg border border-white/10">
+                <div className="text-gray-400 mb-1">Total Tasks</div>
+                <div className="text-2xl font-bold text-white">{stats.total}</div>
+              </div>
+              <div className="backdrop-blur-lg bg-white/5 p-4 rounded-lg border border-white/10">
+                <div className="text-gray-400 mb-1">To Do</div>
+                <div className="text-2xl font-bold text-yellow-500">{stats.todo}</div>
+              </div>
+              <div className="backdrop-blur-lg bg-white/5 p-4 rounded-lg border border-white/10">
+                <div className="text-gray-400 mb-1">In Progress</div>
+                <div className="text-2xl font-bold text-blue-500 ">{stats.inProgress}</div>
+              </div>
+              <div className="backdrop-blur-lg bg-white/5 p-4 rounded-lg border border-white/10">
+                <div className="text-gray-400 mb-1">Completed</div>
+                <div className="text-2xl font-bold text-green-500">{stats.done}</div>
+              </div>
             </div>
-            <div className="bg-gray-800 p-4 rounded-lg">
-              <div className="text-gray-400 mb-1">To Do</div>
-              <div className="text-2xl font-bold">{stats.todo}</div>
+            
+            <div className="mt-4">
+              <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-indigo-600 transition-all duration-300"
+                  style={{
+                    width: `${stats.total ? (stats.done / stats.total) * 100 : 0}%`
+                  }}
+                />
+              </div>
+              <div className="mt-2 text-sm text-gray-400">
+                {stats.total ? Math.round((stats.done / stats.total) * 100) : 0}% Complete
+              </div>
             </div>
-            <div className="bg-gray-800 p-4 rounded-lg">
-              <div className="text-gray-400 mb-1">In Progress</div>
-              <div className="text-2xl font-bold">{stats.inProgress}</div>
-            </div>
-            <div className="bg-gray-800 p-4 rounded-lg">
-              <div className="text-gray-400 mb-1">Completed</div>
-              <div className="text-2xl font-bold">{stats.done}</div>
-            </div>
+            
           </div>
-          <div className="mt-4">
-            <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-indigo-600 transition-all duration-300"
-                style={{
-                  width: `${stats.total ? (stats.done / stats.total) * 100 : 0}%`
-                }}
-              />
-            </div>
-            <div className="mt-2 text-sm text-gray-400">
-              {stats.total ? Math.round((stats.done / stats.total) * 100) : 0}% Complete
-            </div>
+          <div className='w-full h-auto max-w-full overflow-auto'>
+          <TaskChart taskHistory={taskHistory} />
           </div>
+     
+         
         </div>
       </div>
     </div>
