@@ -9,6 +9,7 @@ import TextInput from "./TextInput";
 import Loading from "./Loading";
 import CustomButton from "./CustomButton";
 import { postComments } from "../assets/data";
+import { useSelector } from 'react-redux';
 
 const ReplyCard = ({ reply, user, handleLike }) => {
   return (

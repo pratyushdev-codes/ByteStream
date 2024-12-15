@@ -19,6 +19,12 @@ import { useForm } from "react-hook-form";
 import { userLogin } from "../redux/userSlice.js";
 import { Link } from "react-router-dom";
 import Dock from "../components/ui/Dock";
+import ProductBoard from "../components/ProductBoard";
+
+
+//importing click counter
+
+
 
 const Home = () => {
 
@@ -30,6 +36,11 @@ const Home = () => {
   const [file, setFile] = useState(null);
   const [posting, setPosting] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const clickCount = useSelector((state) => 
+    state.clickCounter?.clickCount ?? 0
+  );
+
 
   const {
     register,
@@ -106,33 +117,29 @@ const Home = () => {
 
   }
   const fetchFriendRequests = async() => {
-
     try {
-          const res = await apiRequest({
-            url: "/users/get-friend-request/",
-            method: "POST",
-            token: user?.token,
-          });
-
-          setFriendRequest(res?.data);
-        } catch (error) {
-          console.log(error);
-        }
-
+      const res = await apiRequest({
+        url: "/users/get-friend-request/",
+        method: "POST",
+        token: user?.token,
+      });
+  
+      setFriendRequest(res?.data);
+    } catch (error) {
+      console.log(error);
+    }
   }
   const fetchSuggestedFriends = async() => {
-
     try {
-          const res = await apiRequest({
-            url: "/users/suggested-friends/",
-            token: user?.token,
-            method: "POST",
-          });
-          setSuggestedFriends(res?.data);
-        } catch (error) {
-          console.log(error);
-        }
-
+      const res = await apiRequest({
+        url: "/users/suggested-friends/",
+        token: user?.token,
+        method: "POST",
+      });
+      setSuggestedFriends(res?.data);
+    } catch (error) {
+      console.log(error);
+    }
   }
   const handleFriendRequest = async(id) => {
 
@@ -148,26 +155,23 @@ const Home = () => {
   }
   
   const acceptFriendRequest = async(id, status) => {
-
     try {
-      
       await apiRequest({
         url: "/users/accept-request/",
         token: user?.token,
         method: "POST",
         data: {
           rid: id,
-          status
+          status: status.toLowerCase() // Ensure consistent casing
         }
       });
-
-        await fetchSuggestedFriends();
-        await fetchFriendRequests();
+  
+      await fetchSuggestedFriends();
+      await fetchFriendRequests();
       getUser();
     } catch (error) {
       console.log(error);
     }
-
   }
   useEffect(() => {
     setLoading(true);
@@ -230,7 +234,7 @@ className="recording flex gap-3 items-center  text-ascent-1 text-lg md:text-lg b
 <i class="fa-solid fa-square blink" style={{color:"#ff3737", scale:"0.9"}}></i><br/>
 </div>
 
-   <span className="text-sm font-medium">3 Connections in ByteMeet</span>
+   <span className="text-sm font-medium">{clickCount} Connections in ByteMeet</span>
 </div>
 
 
@@ -257,7 +261,7 @@ className="recording flex gap-3 items-center  text-ascent-1 text-lg md:text-lg b
 
 
 {/* Recording Section */}
-
+<ProductBoard/>
 
 
 
@@ -271,7 +275,7 @@ className="recording flex gap-3 items-center  text-ascent-1 text-lg md:text-lg b
                 <img
                   src={user?.profileUrl ?? NoProfile}
                   alt='User Image'
-                  className='w-14 h-14 rounded-full object-cover'
+                  className='w-12 h-12 rounded-full object-cover'
                 />
                 <TextInput
                   styles='w-full rounded-full py-5'
@@ -377,12 +381,12 @@ className="recording flex gap-3 items-center  text-ascent-1 text-lg md:text-lg b
             ) : posts?.length > 0 ? (
               posts?.map((post) => (
                 <PostCard
-                  key={post?._id}
-                  post={post}
-                  user={user}
-                  deletePost={() => {}}
-                  likePost={() => {}}
-                />
+                key={post?._id}
+                post={post}
+                user={user}
+                deletePost={() => handleDelete(post._id)}
+                likePost={() => handleLikePost(post._id)}
+              />
               ))
             ) : (
               <div className='flex w-full h-full items-center justify-center'>
@@ -423,15 +427,17 @@ className="recording flex gap-3 items-center  text-ascent-1 text-lg md:text-lg b
                     </Link>
 
                     <div className='flex gap-1'>
-                      <CustomButton
-                        title='Accept'
-                        containerStyles='bg-white text-xs text-[#045AD8] px-1.5 py-1 rounded-full'
-                      />
-                      <CustomButton
-                        title='Deny'
-                        containerStyles='border border-[#666] text-xs text-ascent-1 px-1.5 py-1 rounded-full'
-                      />
-                    </div>
+  <CustomButton
+    title='Accept'
+    onClick={() => acceptFriendRequest(_id, 'accepted')}
+    containerStyles='bg-white text-xs text-[#045AD8] px-1.5 py-1 rounded-full'
+  />
+  <CustomButton
+    title='Deny'
+    onClick={() => acceptFriendRequest(_id, 'denied')}
+    containerStyles='border border-[#666] text-xs text-ascent-1 px-1.5 py-1 rounded-full'
+  />
+</div>
                   </div>
                 ))}
               </div>
@@ -468,13 +474,23 @@ className="recording flex gap-3 items-center  text-ascent-1 text-lg md:text-lg b
                       </div>
                     </Link>
 
+<div class="w-full bg-primary shadow-sm rounded-lg px-5 py-5">
+  <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+      <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+    </svg>
+  </div>
+  <input datepicker id="default-datepicker" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date"/>
+</div>
+
+
                     <div className='flex gap-1'>
-                      <button
-                        className='bg-[#0444a430] text-sm text-white p-1 rounded'
-                        onClick={() => {}}
-                      >
-                        <BsPersonFillAdd size={20} className='text-[#0f52b6]' />
-                      </button>
+                    <button
+  className='bg-[#0444a430] text-sm text-white p-1 rounded'
+  onClick={() => handleFriendRequest(friend._id)}
+>
+  <BsPersonFillAdd size={20} className='text-[#0f52b6]' />
+</button>
                     </div>
                   </div>
                 ))}

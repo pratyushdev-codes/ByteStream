@@ -1,6 +1,7 @@
 import {Outlet, Navigate, Route, Routes, useLocation} from 'react-router-dom'
 import { useSelector } from 'react-redux';
 import{Login,Register,ResetPassword,Profile,Home} from './pages'
+import 'flowbite';
 
 function Layout(){
   const {user} = useSelector(state => state.user);
