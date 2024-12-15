@@ -36,12 +36,12 @@ export function TaskChart({ taskHistory }) {
       {
         label: 'Completion Rate',
         data: completionData,
-        borderColor: 'rgba(99, 102, 241, 1)',
+       
         backgroundColor: 'rgba(99, 102, 241, 0.1)',
         tension: 0.4,
         fill: true,
         pointBackgroundColor: 'rgba(99, 102, 241, 1)',
-        pointBorderColor: '#fff',
+      
         pointBorderWidth: 2,
         pointRadius: 4,
         pointHoverRadius: 6,
@@ -57,7 +57,7 @@ export function TaskChart({ taskHistory }) {
       },
       title: {
         display: true,
-        text: 'Task Completion Trend (Last 7 Days)',
+        text: 'Task Completion Trend',
         color: '#9ca3af',
         padding: {
           bottom: 20,
@@ -115,7 +115,7 @@ export function TaskChart({ taskHistory }) {
   };
 
   return (
-    <div className="backdrop-blur-lg bg-white/5 rounded-lg p-6 border border-white/10 w-full h-auto max-w-full overflow-auto" style={{width:"100%", height:"100%" , overflow:"auto"}}>
+    <div className="backdrop-blur-lg bg-white/5 rounded-lg p-6 border border-[#00000019] w-full h-auto max-w-full overflow-auto" style={{width:"100%", height:"100%" , overflow:"auto"}}>
       <Line options={chartOptions} data={chartData} />
     </div>
   );

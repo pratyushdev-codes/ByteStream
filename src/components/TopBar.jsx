@@ -125,26 +125,24 @@ const TopBar = () => {
         </button>
 
         {/* Notifications */}
-        <div className="hidden lg:flex bg-[#1d2224] w-12 h-10 rounded-full text-white items-center justify-center">
+        <div className="hidden lg:flex bg-[#1d2224] w-10 h-10 rounded-full text-white items-center justify-center">
           <IoMdNotificationsOutline />
         </div>
 
-{/* Intelsy Redirect */}
-<div className="hidden lg:flex bg-[#1d2224] w-fit h-10 px-4 rounded-3xl text-white items-center space-x-2">
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    height="24"
-    viewBox="0 -960 960 960"
-    width="24"
-    fill="#D9D9D9"
-  >
-    <path d="M600-120v-120H440v-400h-80v120H80v-320h280v120h240v-120h280v320H600v-120h-80v320h80v-120h280v320H600ZM160-760v160-160Zm520 400v160-160Zm0-400v160-160Zm0 160h120v-160H680v160Zm0 400h120v-160H680v160ZM160-600h120v-160H160v160Z" />
-  </svg>
-  <span className="text-sm "><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#D9D9D9"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z"/></svg></span>
-</div>
-
-
-
+        {/* Intelsy Redirect */}
+        <div className="hidden lg:flex bg-[#1d2224] w-14 h-10 rounded-3xl text-white items-center justify-center">
+          <a
+            href="https://intelsy.onrender.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="./images/Intelsycompiler.png"
+              style={{ width: "22px", height: "22px" }}
+              alt="Intelsy Compiler"
+            />
+          </a>
+        </div>
 
         {/* Log Out */}
         <div>

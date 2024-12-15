@@ -6,7 +6,7 @@ export function TaskColumn({ status, title, icon: Icon, tasks, onMoveTask, onDel
   const columnTasks = tasks.filter(task => task.status === status);
 
   return (
-    <div className="flex-1 min-w-[300px] backdrop-blur-lg bg-white/5 rounded-lg p-4 border border-white/10">
+    <div className="flex-1 min-w-[300px] backdrop-blur-lg bg-white/5 rounded-xl p-4 border border-[#00000019]">
       <div className="flex items-center gap-2 mb-4">
         <Icon className="w-5 h-5 text-gray-400" />
         <h2 className="text-lg font-semibold text-gray-200">{title}</h2>
@@ -16,7 +16,7 @@ export function TaskColumn({ status, title, icon: Icon, tasks, onMoveTask, onDel
       </div>
       <div className="space-y-3">
         {columnTasks.map(task => (
-          <div key={task.id} className="backdrop-blur-lg bg-white/5 p-3 rounded-lg shadow-lg border border-white/10">
+          <div key={task.id} className="backdrop-blur-lg bg-white/5 p-3 rounded-lg shadow-lg border border-[#00000019]">
             <div className="flex justify-between items-start mb-2">
               <h3 className="text-gray-200 font-medium">{task.title}</h3>
               <button 
