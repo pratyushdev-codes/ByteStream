@@ -1,30 +1,63 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { LiaEditSolid } from "react-icons/lia";
 import {
   BsBriefcase,
-  BsFacebook,
-  BsInstagram,
+
   BsPersonFillAdd,
 } from "react-icons/bs";
-import { FaTwitterSquare } from "react-icons/fa";
+
 import { CiLocationOn } from "react-icons/ci";
 import moment from "moment";
-
+import ProjectTags from "./ProjectTag";
 import { NoProfile } from "../assets";
 import { UpdateProfile } from "../redux/userSlice";
-import ProjectTags from "./ProjectTag";
+import EditProfile from "./EditProfile";
+import { apiRequest, sendFriendRequest } from "../Utils";
 
 const ProfileCard = ({ user }) => {
   const { user: data, edit } = useSelector((state) => state.user);
+  const [mutualFriends, setMutualFriends] = useState("No");
   const dispatch = useDispatch();
+
+   const handleFriendRequest = async() => {
+
+    try {
+      await sendFriendRequest(data.token, user._id);
+      checkFriendRequestSent();
+      } 
+    catch (error) {
+    console.log(error);
+      }
+  }
+const checkFriendRequestSent = useCallback(async () => {
+    try {
+      const res = await apiRequest({
+        url: "/users/check-friend-request-sent/",
+        token: data.token,
+        method: "POST",
+        data: {
+          from_id: user._id,
+          to_id: data._id
+        }
+      });
+      setMutualFriends(res.message);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [user, data]);
+
+  useEffect(() => {
+    checkFriendRequestSent();
+  }, [user, checkFriendRequestSent]);
+
 
   return (
     <div>
       <div className='w-full bg-primary flex flex-col items-center shadow-sm rounded-xl px-6 py-4 '>
         <div className='w-full flex items-center justify-between border-b pb-5 border-[#66666645]'>
-          <Link to={"/profile/" + user?._id} className='flex gap-2'>
+        <Link to={"/profile/" + user?._id} className='flex gap-2'>
             <img
               src={user?.profileUrl ?? NoProfile}
               alt={user?.email}
@@ -42,15 +75,32 @@ const ProfileCard = ({ user }) => {
           </Link>
 
           <div className=''>
+          {/* {console.log(data._id, 'dataid')}
+          {console.log(user._id, 'user')} */}
+
             {user?._id === data?._id ? (
-              <i className="fa-solid fa-pen-to-square" style={{color:"#045AD8", scale:"1.5"}} onClick={() => dispatch(UpdateProfile(true))}></i>
+              
+             
+              <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              height="26px" 
+              viewBox="0 -960 960 960" 
+              width="26px" 
+              fill="#D9D9D9" 
+              onClick={() => dispatch(UpdateProfile(true))} // Dispatch to set edit mode
+            >
+              <path d="M240-160q-33 0-56.5-23.5T160-240q0-33 23.5-56.5T240-320q33 0 56.5 23.5T320-240q0 33-23.5 56.5T240-160Zm0-240q-33 0-56.5-23.5T160-480q0-33 23.5-56.5T240-560q33 0 56.5 23.5T320-480q0 33-23.5 56.5T240-400Zm0-240q-33 0-56.5-23.5T160-720q0-33 23.5-56.5T240-800q33 0 56.5 23.5T320-720q0 33-23.5 56.5T240-640Zm240 0q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Zm240 0q-33 0-56.5-23.5T640-720q0-33 23.5-56.5T720-800q33 0 56.5 23.5T800-720q0 33-23.5 56.5T720-640ZM480-400q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm40 240v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q8 9 12.5 20t4.5 22q0 11-4 22.5T863-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+            </svg>
+            
             ) : (
+              mutualFriends === 'No' ? (
               <button
                 className='bg-[#0444a430] text-sm text-white p-1 rounded'
-                onClick={() => {}}
+                onClick={() => {handleFriendRequest();}}
               >
+              
                 <BsPersonFillAdd size={20} className='text-[#0f52b6]' />
-              </button>
+              </button>) : (<div></div>)
             )}
           </div>
         </div>
@@ -78,7 +128,7 @@ const ProfileCard = ({ user }) => {
           </div>
 
           <span className='text-base text-blue'>
-            {user?.verified ? "Verified Account" : "Not Verified"}
+           {user?.verified ? "Verified Account" : "Not Verified"}
           </span>
 
           <div className='flex items-center justify-between'>

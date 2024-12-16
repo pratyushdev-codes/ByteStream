@@ -9,27 +9,34 @@ import { BsMoon, BsSunFill } from "react-icons/bs";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { SetTheme } from "../redux/theme";
 import { Logout } from "../redux/userSlice";
+import { fetchPosts } from '../Utils';
 import Ai from "./Ai";
 
 const TopBar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); // Initialize modal state
   const { theme } = useSelector((state) => state.theme);
   const { user } = useSelector((state) => state.user);
+  
   const dispatch = useDispatch();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const {register, reset, handleSubmit} = useForm();
+
+  const handleSearch = async(data) => {
+    await fetchPosts(user.token, dispatch, "", data);
+    reset({search: ''})
+  }
 
   const handleTheme = () => {
-    const themeValue = theme === "light" ? "dark" : "light";
-    dispatch(SetTheme(themeValue));
-  };
+    const themeValue = theme === 'light' ? 'dark' : 'light';
+    dispatch(SetTheme(themeValue))
 
-  const handleSearch = async (data) => {
-    console.log("Search Data:", data);
-  };
+  }
+
+  const handleLogout = () => {
+
+    dispatch(Logout());
+
+  }
+
 
   return (
     <div className="topbar w-full flex items-center justify-between py-3 md:py-6 px-4 bg-[black]  text-white rounded-xl">
@@ -56,7 +63,7 @@ const TopBar = () => {
         onSubmit={handleSubmit(handleSearch)}
       >
         <TextInput
-          placeholder="Search ByteStream"
+          placeholder="Search any Post on ByteStream"
           styles="w-[18rem] lg:w-[18rem] rounded-full py-3 bg-[#101010] border-[#666060] border"
           register={register("search")}
         />{" "}
