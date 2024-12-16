@@ -87,7 +87,9 @@ function ProductBoard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#141618] text-gray-100 p-8 w-full  max-w-full overflow-auto rounded-lg">
+<div 
+      className="min-h-screen bg-cover bg-center bg-no-repeat opacity-95 text-gray-100 p-8 w-full max-w-full overflow-auto rounded-xl bg-[url('./images/header2.jpg')]">
+
       <div className="max-w-7xl mx-auto mb-8">
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-semibold text-transparent" style={{
@@ -100,11 +102,11 @@ function ProductBoard() {
           <div className="flex items-center gap-4">
             <button
               onClick={() => setIsFormOpen(!isFormOpen)}
-              className="flex items-center gap-2 bg-[#27282A] px-4 py-2 rounded-full transition-colors text-white"
+              className="text-base flex flex-row text-ascent-1 px-4 md:px-4 py-1 md:py-2 border border-[#666] rounded-full"
             >
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#D9D9D9">
                 <path d="M680-80v-120H560v-80h120v-120h80v120h120v80H760v120h-80Zm-480-80q-33 0-56.5-23.5T120-240v-480q0-33 23.5-56.5T200-800h40v-80h80v80h240v-80h80v80h40q33 0 56.5 23.5T760-720v244q-20-3-40-3t-40 3v-84H200v320h280q0 20 3 40t11 40H200Zm0-480h480v-80H200v80Zm0 0v-80 80Z" />
-              </svg>
+              </svg>&nbsp;
               Add Task
             </button>
           </div>

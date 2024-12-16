@@ -133,7 +133,7 @@ const Home = () => {
   const fetchSuggestedFriends = async () => {
     try {
       const res = await apiRequest({
-        url: "/users/suggested-friends/",
+        url: "/users/suggested-friends",
         token: user?.token,
         method: "POST",
       });
@@ -158,7 +158,7 @@ const Home = () => {
   const acceptFriendRequest = async (id, status) => {
     try {
       await apiRequest({
-        url: "/users/accept-request/",
+        url: "/users/accept-request",
         token: user?.token,
         method: "POST",
         data: {
@@ -502,30 +502,35 @@ const Home = () => {
             </div>
 
             {/* Remainder scheduling div */}
-            <div className='w-full bg-primary shadow-sm rounded-lg px-5 py-5'>
-              <div className='flex items-center justify-between text-lg text-ascent-1 '>
-                <span className="flex flex-row">Schedule Remainder &nbsp;<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#D9D9D9"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280L160-640v400h640v-400L480-440Zm0-80 320-200H160l320 200ZM160-640v-80 480-400Z" /></svg></span>
+            {/* <div class="w-full max-w-lg mx-auto bg-primary shadow-sm rounded-lg px-4 py-5 sm:px-6 lg:px-8 overflow-hidden">
+              <div class="flex items-center justify-between text-lg text-ascent-1">
+                <span class="flex items-center gap-2">
+                  Schedule Remainder&nbsp;
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 -960 960 960" fill="#D9D9D9">
+                    <path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280L160-640v400h640v-400L480-440Zm0-80 320-200H160l320 200ZM160-640v-80 480-400Z" />
+                  </svg>
+                </span>
               </div>
-              <p className="text-base text-blue">Schedule a remainder via mail</p>
+              <p class="text-base text-blue-400">Schedule a remainder via mail</p>
 
-              <div className="flex flex-row">
-                <textarea
-
-
-                  onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleSubmit()}
-                  placeholder="  Email ID"
-                  className="flex bg-white/5 border border-[#00000019] rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-500 min-h-[15px] resize-none"
+              <div class="flex flex-wrap items-center gap-4">
+                <input
+                  type="text"
+                  placeholder="Email ID"
+                  class="flex-1 min-w-0 bg-white/5 border border-gray-700 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400 px-4 py-2"
                 />
                 <button
                   onClick={handleSubmit}
-                  className="flex items-center  bg-[#27282A] rounded-full transition-colors text-white"
+                  class="bg-[#27282A] rounded-full px-4 py-2 transition hover:bg-gray-700"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#D9D9D9"><path d="M240-40q-33 0-56.5-23.5T160-120v-440q0-33 23.5-56.5T240-640h120v80H240v440h480v-440H600v-80h120q33 0 56.5 23.5T800-560v440q0 33-23.5 56.5T720-40H240Zm200-280v-447l-64 64-56-57 160-160 160 160-56 57-64-64v447h-80Z" /></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 -960 960 960" fill="#D9D9D9">
+                    <path d="M240-40q-33 0-56.5-23.5T160-120v-440q0-33 23.5-56.5T240-640h120v80H240v440h480v-440H600v-80h120q33 0 56.5 23.5T800-560v440q0 33-23.5 56.5T720-40H240Zm200-280v-447l-64 64-56-57 160-160 160 160-56 57-64-64v447h-80Z" />
+                  </svg>
                 </button>
               </div>
+            </div> */}
 
 
-            </div>
           </div>
         </div>
       </div>

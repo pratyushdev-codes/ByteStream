@@ -36,11 +36,11 @@ const TopBar = () => {
       <Link to="/" className="flex gap-2 items-center">
         <div className="rounded text-white">
           <img
-            src="./images/ByteStream.png"
+            src="./images/icon.webp"
             style={{
-              width: "50px",
-              height: "50px",
-              animation: "rotate 12s linear 0s infinite",
+              width: "40px",
+              height: "40px",
+              // animation: "rotate 12s linear 0s infinite",
             }}
             alt="ByteStream"
           />
