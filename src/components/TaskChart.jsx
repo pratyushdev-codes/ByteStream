@@ -115,7 +115,7 @@ export function TaskChart({ taskHistory }) {
   };
 
   return (
-    <div className="backdrop-blur-lg bg-white/5 rounded-lg p-6 border border-[#00000019] w-full h-auto max-w-full overflow-auto" style={{width:"100%", height:"100%" , overflow:"auto"}}>
+    <div className="backdrop-blur-lg bg-white/5 rounded-lg p-6 border border-[#ffffff19] w-full h-auto max-w-full overflow-auto" style={{width:"100%", height:"100%" , overflow:"auto"}}>
       <Line options={chartOptions} data={chartData} />
     </div>
   );

@@ -28,7 +28,7 @@ function Quickpad() {
                     </h1>
                     <button
                         onClick={clearAllNotes}
-                        className="bg-red-500/10 hover:bg-red-500/20 text-red-400 px-4 py-2 bg-[#222222] rounded-full flex items-center gap-2 transition-colors"
+                        className="bg-red-500/10 hover:bg-red-500/20 text-red-400  px-4 md:px-4 py-1 md:py-2 bg-[#222222] rounded-full flex items-center gap-2 transition-colors"
                     >
                         <Trash2 size={20} />
                         Clear All

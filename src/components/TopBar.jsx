@@ -45,8 +45,8 @@ const TopBar = () => {
             alt="ByteStream"
           />
         </div>
-        <span className="text-xl md:text-2xl text-[#065ad8] font-semibold">
-          Byte<span style={{ color: "white" }}>Stream</span>
+        <span className="text-xl md:text-3xl  text-[#5B81FE] font-semibold">
+          Byte<span style={{ color: "white" }}>Stream</span>.
         </span>
       </Link>
 

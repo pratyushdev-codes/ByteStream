@@ -88,7 +88,7 @@ function ProductBoard() {
 
   return (
 <div 
-      className="min-h-screen bg-cover bg-center bg-no-repeat opacity-95 text-gray-100 p-8 w-full max-w-full overflow-auto rounded-xl bg-[url('./images/header2.jpg')]">
+      className="min-h-screen bg-cover bg-center bg-no-repeat opacity-90 text-gray-100 p-8 w-full max-w-full overflow-auto rounded-xl bg-[url('./images/header2.jpg')]">
 
       <div className="max-w-7xl mx-auto mb-8">
         <div className="flex justify-between items-center">
@@ -124,13 +124,13 @@ function ProductBoard() {
               value={newTask}
               onChange={(e) => setNewTask(e.target.value)}
               placeholder="Enter task title"
-              className="flex-1 bg-[#00000019] border border-[#00000019] rounded-lg px-4 py-2 text-gray-100 focus:outline-none focus:border-indigo-400"
+              className="flex-1 bg-[white] border border-[white] rounded-lg px-4 py-2 text-gray-100 focus:outline-none focus:border-indigo-400"
             />
             <input
               type="date"
               value={dueDate}
               onChange={(e) => setDueDate(e.target.value)}
-              className="bg-[#00000019] border border-[#00000019]rounded-lg px-4 py-2 text-gray-100 focus:outline-none focus:border-indigo-500"
+              className="bg-[white] border border-[white]rounded-lg px-4 py-2 text-gray-100 focus:outline-none focus:border-indigo-500"
             />
             <button
               type="submit"
@@ -170,22 +170,22 @@ function ProductBoard() {
       </div>
 
       <div className="grid gap-4">
-        <div className="backdrop-blur-lg bg-white/5 rounded-xl p-6 border border-[#00000019]">
+        <div className="backdrop-blur-lg bg-white/5 rounded-xl p-6 border border-[#ffffff19]">
           <h2 className="text-xl font-semibold mb-4 text-white">Progress Dashboard</h2>
           <div className="grid grid-cols-4 gap-4">
-            <div className="backdrop-blur-lg bg-white/5 p-4 rounded-xl border border-[#00000019]">
+            <div className="backdrop-blur-lg bg-white/5 p-4 rounded-xl border border-[#ffffff19]">
               <div className="text-gray-400 mb-1">Total Tasks</div>
               <div className="text-2xl font-bold text-white">{stats.total}</div>
             </div>
-            <div className="backdrop-blur-lg bg-white/5 p-4 rounded-xl  border border-[#00000019]">
+            <div className="backdrop-blur-lg bg-white/5 p-4 rounded-xl  border border-[#ffffff19]">
               <div className="text-gray-400 mb-1">To Do</div>
               <div className="text-2xl font-bold text-yellow-500">{stats.todo}</div>
             </div>
-            <div className="backdrop-blur-lg bg-white/5 p-4 rounded-xl  border border-[#00000019]">
+            <div className="backdrop-blur-lg bg-white/5 p-4 rounded-xl  border border-[#ffffff19]">
               <div className="text-gray-400 mb-1">In Progress</div>
               <div className="text-2xl font-bold text-blue-500 ">{stats.inProgress}</div>
             </div>
-            <div className="backdrop-blur-lg bg-white/5 p-4 rounded-xl  border border-[#00000019]">
+            <div className="backdrop-blur-lg bg-white/5 p-4 rounded-xl  border border-[#ffffff19]">
               <div className="text-gray-400 mb-1">Completed</div>
               <div className="text-2xl font-bold text-green-500">{stats.done}</div>
             </div>

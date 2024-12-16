@@ -21,6 +21,7 @@ import { Link } from "react-router-dom";
 import Dock from "../components/ui/Dock";
 import ProductBoard from "../components/ProductBoard";
 import Quickpad from "../components/Quickpad";
+import { ProjectTags } from "../components/ProjectTags";
 
 
 //importing click counter
@@ -192,11 +193,18 @@ const Home = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [edit]);
 
+
   //Edit is a state in userSlice which is set to true when the user clicks the edit button in ProfileCard. When the edit state changes, the useEffect hook will run again and fetch the user data from the server. For example - when user updates profile picture then after updating, edit will become false, so if we again fetch posts, the post which this user itself had posted will come with updated profile picture otherwise it will come with the old profile picture.
 
   // useEffect hook here is to set the loading state to true initially and then fetch user data, posts, friend requests, and suggested friends from the server when the component renders.
 
   // When the component mounts or when the edit state changes, the useEffect runs.
+
+  // Tagging projects option over here , enabling it fromt the local storage
+  useEffect(() => {
+    let projectData = localStorage.getItem('userProjects'); // Use the same key
+    console.log(projectData);  // Logs the saved projects, or null if none are saved
+  }, []);
 
   const navigate = useNavigate();
 
@@ -279,7 +287,7 @@ const Home = () => {
                 <img
                   src={user?.profileUrl ?? NoProfile}
                   alt='User Image'
-                  className='w-12 h-12 rounded-full object-cover'
+                  className='w-14 h-14 rounded-full object-cover'
                 />
                 <TextInput
                   styles='w-full rounded-full py-5'
@@ -359,8 +367,6 @@ const Home = () => {
                   />
                 </div>
 
-
-
                 <div>
                   {posting ? (
                     <Loading />
@@ -373,7 +379,17 @@ const Home = () => {
                   )}
                 </div>
               </div>
+
               <Dock />
+              <div flex flex-col>
+                <button
+
+
+                  className="text-base flex mb-3 flex-row text-ascent-1 px-4 md:px-4 py-1 md:py-2  rounded-full"
+                >
+                  <ProjectTags />
+                </button>
+              </div>
             </form>
 
 
@@ -502,35 +518,16 @@ const Home = () => {
             </div>
 
             {/* Remainder scheduling div */}
-            {/* <div class="w-full max-w-lg mx-auto bg-primary shadow-sm rounded-lg px-4 py-5 sm:px-6 lg:px-8 overflow-hidden">
-              <div class="flex items-center justify-between text-lg text-ascent-1">
-                <span class="flex items-center gap-2">
-                  Schedule Remainder&nbsp;
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 -960 960 960" fill="#D9D9D9">
-                    <path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280L160-640v400h640v-400L480-440Zm0-80 320-200H160l320 200ZM160-640v-80 480-400Z" />
-                  </svg>
-                </span>
+            <div className='w-full bg-primary shadow-sm rounded-lg px-6 py-5'>
+              <div className='flex items-center justify-between text-xl text-ascent-1 pb-2 ]  '>
+                <span className="flex flex-row">Schedule Email &nbsp;<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#D9D9D9"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280L160-640v400h640v-400L480-440Zm0-80 320-200H160l320 200ZM160-640v-80 480-400Z" /></svg></span>
               </div>
-              <p class="text-base text-blue-400">Schedule a remainder via mail</p>
-
-              <div class="flex flex-wrap items-center gap-4">
-                <input
-                  type="text"
-                  placeholder="Email ID"
-                  class="flex-1 min-w-0 bg-white/5 border border-gray-700 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400 px-4 py-2"
-                />
-                <button
-                  onClick={handleSubmit}
-                  class="bg-[#27282A] rounded-full px-4 py-2 transition hover:bg-gray-700"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 -960 960 960" fill="#D9D9D9">
-                    <path d="M240-40q-33 0-56.5-23.5T160-120v-440q0-33 23.5-56.5T240-640h120v80H240v440h480v-440H600v-80h120q33 0 56.5 23.5T800-560v440q0 33-23.5 56.5T720-40H240Zm200-280v-447l-64 64-56-57 160-160 160 160-56 57-64-64v447h-80Z" />
-                  </svg>
-                </button>
+              <p className="text-base text-blue">Schedule a remainder via mail</p>
+              <div className='w-full flex flex-row gap-4 pt-4'>
+                {/* Schedule email content here */}
               </div>
-            </div> */}
-
-
+            </div>
+            
           </div>
         </div>
       </div>
