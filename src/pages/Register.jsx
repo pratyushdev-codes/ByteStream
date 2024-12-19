@@ -8,7 +8,7 @@ import { ImConnection } from "react-icons/im";
 import { CustomButton, Loading, TextInput } from "../components";
 import { BgImage } from "../assets";
 import { apiRequest, handleFileUpload } from "../Utils";
-
+import toast from "react-hot-toast";
 const Register = () => {
 
   const {
@@ -46,6 +46,7 @@ const Register = () => {
       if(res?.status === "failed") {
         setErrMsg(res);
         setIsSubmitting(false);
+        toast.error("Unable to Sign Up")
       }
 
       else{
@@ -54,6 +55,7 @@ const Register = () => {
           window.location.replace('/login');
         }, 1000)
         setIsSubmitting(false);
+        toast.success("Email Verification sent to your Email ID")
       }
 
     } catch (error) {

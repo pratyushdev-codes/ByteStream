@@ -35,9 +35,9 @@ const Dock = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          
+        
           <i
-            className="fa-solid fa-video"
+            className="fa-solid fa-message"
             style={{ transform: "scale(1.3)", color: "#ffffff" }}
           ></i>
         </a>

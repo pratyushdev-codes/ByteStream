@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PlusCircle, Calendar, CheckCircle2, Clock, ListTodo } from 'lucide-react';
 import { TaskChart } from './TaskChart';
 import { TaskColumn } from './TaskColumn';
+import toast from 'react-hot-toast';
 
 function ProductBoard() {
   const [tasks, setTasks] = useState(() => {
@@ -88,7 +89,7 @@ function ProductBoard() {
 
   return (
 <div 
-      className="min-h-screen bg-cover bg-center bg-no-repeat opacity-90 text-gray-100 p-8 w-full max-w-full overflow-auto rounded-xl bg-[url('./images/header2.jpg')]">
+      className="min-h-screen bg-cover bg-center bg-no-repeat opacity-90 text-gray-100 p-8 w-full max-w-full overflow-auto rounded-lg bg-[url('./images/header2.jpg')]">
 
       <div className="max-w-7xl mx-auto mb-8">
         <div className="flex justify-between items-center">
@@ -101,7 +102,10 @@ function ProductBoard() {
           </h1>
           <div className="flex items-center gap-4">
             <button
-              onClick={() => setIsFormOpen(!isFormOpen)}
+              onClick={() => {
+                setIsFormOpen(!isFormOpen);
+
+              }}
               className="text-base flex flex-row text-ascent-1 px-4 md:px-4 py-1 md:py-2 border border-[#666] rounded-full"
             >
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#D9D9D9">
@@ -132,12 +136,14 @@ function ProductBoard() {
               onChange={(e) => setDueDate(e.target.value)}
               className="bg-[white] border border-[white]rounded-lg px-4 py-2 text-gray-100 focus:outline-none focus:border-indigo-500"
             />
-            <button
-              type="submit"
-              className="bg-indigo-600 hover:bg-indigo-700 px-6 py-2 rounded-lg transition-colors"
-            >
-              Add
-            </button>
+<button
+  onClick={() => toast.success("Task Added to Product Board")}
+  type="submit"
+  className="bg-indigo-600 hover:bg-indigo-700 px-6 py-2 text-white rounded-lg transition-colors"
+>
+  Add
+</button>
+
           </div>
         </form>
       )}

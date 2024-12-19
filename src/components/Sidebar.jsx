@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import VideoChat from './VideoChat';
+import { Toaster, toast } from 'react-hot-toast'; // Import toast
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const [showVideoChat, setShowVideoChat] = useState(false);
@@ -12,6 +13,8 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       }`}
       style={{ width: '26rem' }} // 96px equivalent in Tailwind CSS
     >
+     {/* Toaster for displaying notifications */}
+      
       <div className="flex justify-end p-4">
         <button
           onClick={toggleSidebar}
@@ -52,18 +55,17 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             Schedule Meets • Collaborate Work • Upload Data
           </p>
           <div className="flex items-center gap-4 p-6">
-              <button
-                onClick={() => setShowVideoChat(true)}
-                className="text-base flex flex-row text-ascent-1 px-4 md:px-4 py-1 md:py-2 border border-[#666] rounded-full"
-              >
-       <i className="fa-solid fa-video py-1 " 
-                
-                >
-                  
-                  </i>
-                &nbsp; Start a call
-              </button>
-            </div>
+            <button
+              onClick={() => {
+                setShowVideoChat(true);
+                toast.success("Joined ByteCall");
+              }}
+              className="text-base flex flex-row text-ascent-1 px-4 md:px-4 py-1 md:py-2 border border-[#666] rounded-full"
+            >
+              <i className="fa-solid fa-video py-1"></i>
+              &nbsp; Start a call
+            </button>
+          </div>
         </nav>
       )}
     </div>

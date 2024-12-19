@@ -10,6 +10,7 @@ import { CustomButton, Loading, TextInput } from "../components";
 import { BgImage } from "../assets";
 import { userLogin } from "../redux/userSlice";
 import { apiRequest } from "../Utils";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const {
@@ -38,6 +39,7 @@ const Login = () => {
 
       if(res?.status === 'failed'){
         setErrMsg(res);
+        toast.error("Unable to Login")
       }
       else{
         setErrMsg("");
@@ -45,6 +47,7 @@ const Login = () => {
         const newData = {token: res?.token, ...res?.user};
         dispatch(userLogin(newData));
         window.location.replace("/");
+        toast.success("Welcome back chief")
       }
 
       setIsSubmitting(false);

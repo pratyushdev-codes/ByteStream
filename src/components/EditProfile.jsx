@@ -7,6 +7,7 @@ import Loading from "./Loading";
 import CustomButton from "./CustomButton";
 import { apiRequest, handleFileUpload } from "../Utils/index.js";
 import { UpdateProfile, userLogin } from "../redux/userSlice";
+import toast from "react-hot-toast";
 
 const EditProfile = () => {
   const { user } = useSelector((state) => state.user);
@@ -175,17 +176,22 @@ const EditProfile = () => {
                 </span>
               )}
 
-              <div className='py-5 sm:flex sm:flex-row-reverse border-t border-[#66666645]'>
-                {isSubmitting ? (
-                  <Loading />
-                ) : (
-                  <CustomButton
-                    type='submit'
-                    containerStyles={`inline-flex justify-center rounded-md bg-blue px-8 py-3 text-sm font-medium text-white outline-none`}
-                    title='Submit'
-                  />
-                )}
-              </div>
+<div className='py-5 sm:flex sm:flex-row-reverse border-t border-[#66666645]'>
+  {isSubmitting ? (
+    <>
+      <Loading />
+      <button onClick={() => toast.success("Updating Profile")}></button>
+    </>
+  ) : (
+    <CustomButton
+      type='submit'
+      containerStyles={`inline-flex justify-center rounded-md bg-blue px-8 py-3 text-sm font-medium text-white outline-none`}
+      title='Submit'
+      onClick={() => toast.success("Profile Updated")}
+    />
+  )}
+</div>
+
             </form>
           </div>
         </div>

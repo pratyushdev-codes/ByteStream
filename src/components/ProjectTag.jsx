@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
-
+import toast from 'react-hot-toast';
 const tagColors = [
   'bg-[#045AD8]',
   'bg-[#A855F7]',
@@ -86,6 +86,8 @@ const ProjectTags = () => {
               <button
                 type='submit'
                 className='px-3 py-1 bg-blue text-white text-sm rounded-2xl hover:bg-opacity-80'
+                onClick={() => toast.success("New Project Tag Added")}
+
               >
                 Add
               </button>
