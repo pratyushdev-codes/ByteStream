@@ -11,8 +11,26 @@ import { SetTheme } from "../redux/theme";
 import { Logout } from "../redux/userSlice";
 import { fetchPosts } from '../Utils';
 import Ai from "./Ai";
+import Sidebar from "../components/Sidebar";
+import { Menu } from "lucide-react";
+
+
 
 const TopBar = () => {
+//Side bar for ByteCall 
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  // Move toggleSidebar inside Dock to access setIsSidebarOpen
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+
+
+
+
+
+
   const [isModalOpen, setIsModalOpen] = useState(false); // Initialize modal state
   const { theme } = useSelector((state) => state.theme);
   const { user } = useSelector((state) => state.user);
@@ -102,6 +120,16 @@ const TopBar = () => {
           <i className="fa-solid fa-message" style={{ scale: "0.9" }}></i>
         </div>
 
+{/* ByteCall , side BAr trigger and DIV */}
+
+        <div className="hidden lg:flex bg-[#065ad8] w-10 h-10 rounded-full text-white items-center justify-center">
+          <i className="fa-solid fa-video"   onClick={toggleSidebar} style={{ scale: "0.9" }}></i>
+          <div className="flex">
+            <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+
+          </div>
+        </div>
+
         {/* Modal Trigger */}
         <div
           className="hidden lg:flex bg-[#1d2224] w-10 h-10 rounded-full text-white items-center justify-center cursor-pointer"
@@ -120,7 +148,11 @@ const TopBar = () => {
 
         {/* Upload Media */}
         <div className="hidden lg:flex bg-[#1d2224] w-10 h-10 rounded-full text-white items-center justify-center">
-          <i className="fa-solid fa-cloud-arrow-up" style={{ scale: "0.9" }}></i>
+          <i className="fa-solid fa-cloud-arrow-up"       onClick={toggleSidebar} style={{ scale: "0.9" }}></i>
+          <div className="flex">
+            <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+
+          </div>
         </div>
 
         {/* Theme Toggle */}
@@ -162,19 +194,22 @@ const TopBar = () => {
       </div>
 
       {/* Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-[rgb(27 27 28)] text-white p-6 rounded-lg shadow-lg">
-           <Ai/>
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="bg-blue-500 text-white px-4 py-2 rounded"
-            >
-              Close Modal
-            </button>
-          </div>
-        </div>
-      )}
+     {/* Modal */}
+{isModalOpen && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center min-h-[50vh] 
+ justify-center z-50" style={{height:"200px"}}>
+    <div className="bg-[rgb(27 27 28)] text-white p-6 rounded-lg shadow-lg w-[90%] p-8 md:w-[50%] min-h-[50vh]">
+      <Ai />
+      <button
+        onClick={() => setIsModalOpen(false)}
+        className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
+      >
+        Close Modal
+      </button>
+    </div>
+  </div>
+)}
+
     </div>
   );
 };
