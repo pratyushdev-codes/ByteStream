@@ -56,6 +56,7 @@ function ByteDocs() {
   };
 
   const downloadAsPDF = () => {
+
     const content = getFormattedContent();
     const printWindow = window.open('', '', 'width=800,height=600');
     if (!printWindow) return;
@@ -67,7 +68,7 @@ function ByteDocs() {
     printWindow.onload = () => {
       printWindow.focus();
       printWindow.print();
-      printWindow.close();
+    //   printWindow.close();
     };
   };
 
@@ -77,7 +78,7 @@ function ByteDocs() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `${title}.doc`;
+    link.download = `${title}.docx`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -107,17 +108,16 @@ function ByteDocs() {
               type="text"
               value={title}
               onChange={handleTitleChange}
-              className="text-lg font-medium focus:outline-none w-full bg-transparent text-gray-100"
+              className="text-lg font-medium w-full bg-transparent text-gray-100 rounded-full "
               placeholder="Untitled Document"
             />
-        
           </div>
           <div className="flex items-center space-x-1 mr-4">
             <button
               onClick={handleConnectSession}
               disabled={isConnecting}
-              className={`flex items-center space-x-1 px-1 py-1.5 rounded-2xl ${
-                sessionId ? 'bg-blue-500' : 'transparent '
+              className={`flex items-center space-x-1 px-1 py-1.5 rounded-2xl  ${
+                sessionId ? 'bg-green' : 'bg-[#045AD8] '
               } text-white rounded hover:opacity-90 transition-colors ${
                 isConnecting ? 'opacity-75 cursor-not-allowed' : ''
               }`}
@@ -134,7 +134,7 @@ function ByteDocs() {
             <div className="relative">
               <button
                 onClick={() => setIsDownloadMenuOpen(!isDownloadMenuOpen)}
-                className="flex items-center space-x-1 px-3 py-1.5 bg-gray-700 rounded-2xl text-white  hover:bg-blue-600 transition-colors"
+                className="flex items-center space-x-1 px-3 py-1.5 bg-gray-700 rounded-full text-white  hover:bg-blue-600 transition-colors"
               >
                 <Download className="h-4 w-4" />
                 <span>Download</span>
@@ -203,10 +203,10 @@ function ByteDocs() {
       </header>
 
       {/* Main Editor */}
-      <main className="max-w-4xl mx-auto px-4 py-12">
+      <main className="max-w-4xl mx-auto  ">
         <div
           ref={editorRef}
-          className="min-h-[1100px] w-full bg-gray-900 shadow-lg border border-gray-800 rounded-lg p-12 text-gray-100"
+          className="min-h-[1100px] w-full bg-gray-900 shadow-lg border border-gray-800 rounded-lg p-12 text-gray-100 "
           contentEditable
           onInput={handleContentChange}
           suppressContentEditableWarning

@@ -20,23 +20,17 @@ import ByteDocsSidebar from "./ByteDocsSidebar";
 const TopBar = () => {
 //Side bar for ByteCall 
 
-
-  // State for ByteCall Sidebar
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-
   // State for ByteDocs Sidebar
   const [isBytedocOpen, setIsBytedocOpen] = useState(false);
   const toggleBytedoc = () => {
     setIsBytedocOpen(!isBytedocOpen);
   };
 
-
-
-
-
+  // State for VideoChat Sidebar
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
 
   const [isModalOpen, setIsModalOpen] = useState(false); // Initialize modal state
   const { theme } = useSelector((state) => state.theme);
@@ -130,17 +124,18 @@ const TopBar = () => {
 {/* ByteCall , side BAr trigger and DIV */}
 
 <div className="hidden lg:flex bg-[#065ad8] w-10 h-10 rounded-full text-white items-center justify-center">
-         <File onClick={toggleBytedoc} />
+          <File onClick={toggleBytedoc} />
           <div className="flex">
-            <Sidebar isOpen={isBytedocOpen} toggleSidebar={toggleBytedoc} />
+          <ByteDocsSidebar isOpen={isBytedocOpen} toggleSidebar={toggleBytedoc} />
+           
 
           </div>
         </div>
 
         <div className="hidden lg:flex bg-[#065ad8] w-10 h-10 rounded-full text-white items-center justify-center">
-          <i className="fa-solid fa-video"   onClick={toggleSidebar} style={{ scale: "0.9" }}></i>
+        <i className="fa-solid fa-video" onClick={toggleSidebar} style={{ scale: "0.9" }}></i>
           <div className="flex">
-          <ByteDocsSidebar isOpen={isBytedocOpen} toggleSidebar={toggleBytedoc} />
+          <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
           </div>
         </div>
