@@ -12,19 +12,26 @@ import { Logout } from "../redux/userSlice";
 import { fetchPosts } from '../Utils';
 import Ai from "./Ai";
 import Sidebar from "../components/Sidebar";
-import { Menu } from "lucide-react";
+import { Menu, File } from "lucide-react";
+import ByteDocsSidebar from "./ByteDocsSidebar";
 
 
 
 const TopBar = () => {
 //Side bar for ByteCall 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  // Move toggleSidebar inside Dock to access setIsSidebarOpen
+
+  // State for ByteCall Sidebar
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  // State for ByteDocs Sidebar
+  const [isBytedocOpen, setIsBytedocOpen] = useState(false);
+  const toggleBytedoc = () => {
+    setIsBytedocOpen(!isBytedocOpen);
+  };
 
 
 
@@ -122,10 +129,18 @@ const TopBar = () => {
 
 {/* ByteCall , side BAr trigger and DIV */}
 
+<div className="hidden lg:flex bg-[#065ad8] w-10 h-10 rounded-full text-white items-center justify-center">
+         <File onClick={toggleBytedoc} />
+          <div className="flex">
+            <Sidebar isOpen={isBytedocOpen} toggleSidebar={toggleBytedoc} />
+
+          </div>
+        </div>
+
         <div className="hidden lg:flex bg-[#065ad8] w-10 h-10 rounded-full text-white items-center justify-center">
           <i className="fa-solid fa-video"   onClick={toggleSidebar} style={{ scale: "0.9" }}></i>
           <div className="flex">
-            <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+          <ByteDocsSidebar isOpen={isBytedocOpen} toggleSidebar={toggleBytedoc} />
 
           </div>
         </div>

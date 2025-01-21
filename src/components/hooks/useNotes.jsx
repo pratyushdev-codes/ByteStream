@@ -11,30 +11,26 @@ const colors = [
 ];
 
 export function useNotes() {
-  const [notes, setNotes] = useState([]);
-
-  // Load notes from local storage on component mount
-  useEffect(() => {
-    const savedNotes = localStorage.getItem(STORAGE_KEY);
-    console.log("Loaded notes from localStorage:", savedNotes); // Log loaded data
-    if (savedNotes) {
-      try {
-        const parsedNotes = JSON.parse(savedNotes);
-        console.log("Parsed notes:", parsedNotes); // Log parsed notes
-        setNotes(parsedNotes);
-      } catch (error) {
-        console.error("Error parsing notes from localStorage", error);
-      }
+  // Changed from useState([]) to useState initializer function
+  const [notes, setNotes] = useState(() => {
+    try {
+      const savedNotes = localStorage.getItem(STORAGE_KEY);
+      const parsedNotes = savedNotes ? JSON.parse(savedNotes) : [];
+      console.log("Initial notes loaded:", parsedNotes);
+      return parsedNotes;
+    } catch (error) {
+      console.error("Error loading initial notes:", error);
+      return [];
     }
-  }, []);
+  });
 
-  // Save notes to local storage whenever the notes state changes
+  // Save notes to localStorage whenever they change
   useEffect(() => {
     try {
-      console.log("Saving notes to localStorage", notes); // Log notes being saved
       localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
+      console.log("Notes saved successfully:", notes);
     } catch (error) {
-      console.error("Error saving notes to localStorage", error);
+      console.error("Error saving notes:", error);
     }
   }, [notes]);
 
@@ -49,25 +45,25 @@ export function useNotes() {
       category,
       progress: category === 'tasks' ? 0 : undefined
     };
-    setNotes(prev => {
-      const newNotes = [...prev, newNote];
-      console.log("Updated notes:", newNotes); // Log after updating state
-      return newNotes;
-    });
+    // Changed to use functional update
+    setNotes(prevNotes => [...prevNotes, newNote]);
   };
 
   const deleteNote = (id) => {
-    setNotes(prev => prev.filter(note => note.id !== id));
+    // Changed to use functional update
+    setNotes(prevNotes => prevNotes.filter(note => note.id !== id));
   };
 
   const updateNotePosition = (id, position) => {
-    setNotes(prev => prev.map(note =>
+    // Changed to use functional update
+    setNotes(prevNotes => prevNotes.map(note =>
       note.id === id ? { ...note, position } : note
     ));
   };
 
   const togglePin = (id) => {
-    setNotes(prev => prev.map(note =>
+    // Changed to use functional update
+    setNotes(prevNotes => prevNotes.map(note =>
       note.id === id ? { ...note, isPinned: !note.isPinned } : note
     ));
   };

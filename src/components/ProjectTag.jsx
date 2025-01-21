@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import toast from 'react-hot-toast';
+
 const tagColors = [
   'bg-[#045AD8]',
   'bg-[#A855F7]',
@@ -12,23 +13,30 @@ const tagColors = [
 ];
 
 const ProjectTags = () => {
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState(() => {
+    // Initialize state with localStorage data
+    try {
+      const savedProjects = localStorage.getItem('userProjects');
+      return savedProjects ? JSON.parse(savedProjects) : [];
+    } catch (error) {
+      console.error('Error loading initial projects:', error);
+      return [];
+    }
+  });
   const [newProject, setNewProject] = useState('');
   const [selectedColor, setSelectedColor] = useState(tagColors[0]);
   const [isAdding, setIsAdding] = useState(false);
 
+  // Save to localStorage whenever projects change
   useEffect(() => {
     try {
-      // Stringify with a try-catch to handle potential errors
       localStorage.setItem('userProjects', JSON.stringify(projects));
-      
-      // Optional: Log when saving
       console.log('Projects saved:', projects);
     } catch (error) {
-      console.error('Error saving projects to localStorage:', error);
+      console.error('Error saving projects:', error);
+      toast.error('Failed to save projects');
     }
   }, [projects]);
-
 
   const handleAddProject = (e) => {
     e.preventDefault();
@@ -38,14 +46,16 @@ const ProjectTags = () => {
         name: newProject.trim(),
         color: selectedColor,
       };
-      setProjects([...projects, newProjectItem]);
+      setProjects(prevProjects => [...prevProjects, newProjectItem]);
       setNewProject('');
       setIsAdding(false);
+      toast.success("New Project Tag Added");
     }
   };
 
   const handleDeleteProject = (id) => {
-    setProjects(projects.filter(project => project.id !== id));
+    setProjects(prevProjects => prevProjects.filter(project => project.id !== id));
+    toast.success("Project Tag Deleted");
   };
 
   return (
@@ -86,8 +96,6 @@ const ProjectTags = () => {
               <button
                 type='submit'
                 className='px-3 py-1 bg-blue text-white text-sm rounded-2xl hover:bg-opacity-80'
-                onClick={() => toast.success("New Project Tag Added")}
-
               >
                 Add
               </button>
