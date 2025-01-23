@@ -236,19 +236,21 @@ const PostCard = ({ post, user, deletePost, likePost }) => {
             className='w-12 h-12 md:w-14 md:h-14 object-cover rounded-full'
           />
 
-        <div className='w-full flex justify-between'>
+<div className='w-full flex justify-between'>
           <div className=''>
-              <p className='font-medium text-lg text-ascent-1 cursor-pointer' 
-                onClick={() => {
-                  handleView(post.userId, user);
-                  
-                  navigate("/profile/" + post?.userId?._id); }}>
-                {post?.userId?.firstName} {post?.userId?.lastName}
-              </p>
+            <p 
+              className='font-medium text-lg text-ascent-1 cursor-pointer' 
+              onClick={() => {
+                handleView(post.userId, user);
+                navigate("/profile/" + post?.userId?._id);
+              }}
+            >
+              {post?.userId?.firstName} {post?.userId?.lastName}
+            </p>
             <span className='text-ascent-2'>{post?.userId?.location}</span>
             <span className='md:hidden flex text-ascent-2 text-xs'>
-            {moment(post?.createdAt ?? "2023-05-25").fromNow()}
-          </span>
+              {moment(post?.createdAt ?? "2023-05-25").fromNow()}
+            </span>
           </div>
 
           <span className='hidden md:flex text-ascent-2'>
@@ -294,25 +296,30 @@ const PostCard = ({ post, user, deletePost, likePost }) => {
         className='mt-4 flex justify-between items-center px-3 py-2 text-ascent-2
       text-base border-t border-[#66666645]'
       >
-        <p className='flex gap-2 items-center text-base cursor-pointer' onClick={()=>{handleLike('/posts/like/' + post?._id)}}>
-          {post?.likes?.includes(user?._id) ? (
-            <BiSolidLike size={20} color='#045AD8' />
-          ) : (
-            <BiLike size={20} />
-          )}
-          {post?.likes?.length} Likes
-        </p>
+        <div className='flex gap-4'>
+          <p 
+            className='flex gap-2 items-center text-base cursor-pointer bg-[#333D41] rounded-full p-1.5' 
+            onClick={()=>{handleLike('/posts/like/' + post?._id)}}
+          >
+            {post?.likes?.includes(user?._id) ? (
+              <BiSolidLike size={20} color='#045AD8' />
+            ) : (
+              <BiLike size={20} />
+            )}
+            {post?.likes?.length} Likes
+          </p>
 
-        <p
-          className='flex gap-2 items-center text-base cursor-pointer'
-          onClick={() => {
-            setShowComments(showComments === post._id ? null : post._id);
-            getComments(post?._id);
-          }}
-        >
-          <BiComment size={20} />
-          {post?.comments?.length} Comments
-        </p>
+          <p
+            className='flex gap-2 items-center text-base cursor-pointer bg-[#333D41] rounded-full p-1.5'
+            onClick={() => {
+              setShowComments(showComments === post._id ? null : post._id);
+              getComments(post?._id);
+            }}
+          >
+            <BiComment size={20} />
+            {post?.comments?.length} Comments
+          </p>
+        </div>
 
         {user?._id === post?.userId?._id && (
           <div

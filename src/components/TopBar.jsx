@@ -12,7 +12,7 @@ import { Logout } from "../redux/userSlice";
 import { fetchPosts } from '../Utils';
 import Ai from "./Ai";
 import Sidebar from "../components/Sidebar";
-import { Menu, File } from "lucide-react";
+import { Menu, File } from "lucide-react";    
 import ByteDocsSidebar from "./ByteDocsSidebar";
 
 
@@ -123,16 +123,16 @@ const TopBar = () => {
 
 {/* ByteCall , side BAr trigger and DIV */}
 
-<div className="hidden lg:flex bg-[#065ad8] w-10 h-10 rounded-full text-white items-center justify-center">
+<div className="hidden lg:flex bg-[#065ad8] w-10 h-10 rounded-full text-white items-center justify-center cursor-pointer">
           <File onClick={toggleBytedoc} />
           <div className="flex">
           <ByteDocsSidebar isOpen={isBytedocOpen} toggleSidebar={toggleBytedoc} />
-           
+
 
           </div>
         </div>
 
-        <div className="hidden lg:flex bg-[#065ad8] w-10 h-10 rounded-full text-white items-center justify-center">
+        <div className="hidden lg:flex bg-[#065ad8] w-10 h-10 rounded-full text-white items-center justify-center cursor-pointer">
         <i className="fa-solid fa-video" onClick={toggleSidebar} style={{ scale: "0.9" }}></i>
           <div className="flex">
           <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
@@ -157,13 +157,13 @@ const TopBar = () => {
         </div>
 
         {/* Upload Media */}
-        <div className="hidden lg:flex bg-[#1d2224] w-10 h-10 rounded-full text-white items-center justify-center">
+        {/* <div className="hidden lg:flex bg-[#1d2224] w-10 h-10 rounded-full text-white items-center justify-center">
           <i className="fa-solid fa-cloud-arrow-up"       onClick={toggleSidebar} style={{ scale: "0.9" }}></i>
           <div className="flex">
             <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
           </div>
-        </div>
+        </div> */}
 
         {/* Theme Toggle */}
         <button

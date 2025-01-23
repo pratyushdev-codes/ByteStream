@@ -277,7 +277,7 @@ const Home = () => {
             </div>
 
 
-<div className="w-full py-4 md:py-6 px-4 bg-primary bg-[url('./images/grad1.png')] rounded-lg text-[blue]">
+{/* <div className="w-full py-4 md:py-6 px-4 bg-primary bg-[url('./images/grad1.png')] rounded-lg text-[blue]">
 <div className="flex justify-between items-center">
   <h1 className="text-3xl font-semibold text-transparent" style={{
                     background: 'linear-gradient(154deg, rgb(221, 230, 232), rgb(221, 230, 232), rgb(51, 152, 219))',
@@ -285,8 +285,8 @@ const Home = () => {
                     WebkitTextFillColor: 'transparent',
                   }}>
                     Sync Space
-                  </h1>
-                  <div className="flex items-center gap-4">
+                  </h1> */}
+                  {/* <div className="flex items-center gap-4">
                     <button
 
                       className="text-base flex flex-row text-ascent-1 px-4 md:px-4 py-1 md:py-2 border border-[#666] rounded-full"
@@ -294,13 +294,13 @@ const Home = () => {
                       <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#D9D9D9"><path d="M200-766v572q-17-17-32-36t-28-39v-422q13-20 28-39t32-36Zm160-96v764q-21-7-41-15.5T280-133v-694q19-11 39-19.5t41-15.5Zm280 749v-734q106 47 173 145t67 222q0 124-67 222T640-113ZM480-80q-10 0-20-.5T440-82v-796q10-1 20-1.5t20-.5q20 0 40 2t40 6v784q-20 4-40 6t-40 2Z" /></svg>&nbsp;
                       Session Flow
                     </button>
-                  </div>
+                  </div> */}
 
-                </div>
+                {/* </div>
                 <p className="text-gray-400 mt-2">
                   No active session
                   
-                </p> </div>
+                </p> </div> */}
                   
 
             {/* Recording Section */}

@@ -42,7 +42,7 @@ function Quickpad() {
             <AddNoteForm onAdd={addNote} />
 
             {/* Notes Board */}
-            <div className="relative w-full h-[calc(100vh-500px)] bg-[#222222] rounded-xl overflow-hidden border border-zinc-800 shadow-2xl">
+            <div className="relative w-full h-[calc(100vh-500px)]  rounded-xl overflow-hidden border border-zinc-800 shadow-2xl">
                 {notes
                     .sort((a, b) => (b.isPinned ? 1 : -1))
                     .map((note) => (

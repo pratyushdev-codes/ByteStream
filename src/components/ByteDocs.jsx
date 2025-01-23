@@ -220,3 +220,313 @@ function ByteDocs() {
 }
 
 export default ByteDocs;
+
+
+
+
+
+// import { useState, useRef, useEffect } from 'react';
+// import { Menu, Type, Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight, List, ListOrdered, Download, ChevronDown, Share2 } from 'lucide-react';
+
+// function ByteDocs() {
+//   const [content, setContent] = useState('Start typing your document...');
+//   const [title, setTitle] = useState('Untitled Document');
+//   const [isSaved, setIsSaved] = useState(true);
+//   const [isDownloadMenuOpen, setIsDownloadMenuOpen] = useState(false);
+//   const [isConnecting, setIsConnecting] = useState(false);
+//   const [sessionId, setSessionId] = useState(null);
+//   const [ws, setWs] = useState(null);
+//   const editorRef = useRef(null);
+//   const isUpdatingRef = useRef(false);
+
+//   useEffect(() => {
+//     return () => {
+//       if (ws) {
+//         ws.close();
+//       }
+//     };
+//   }, [ws]);
+
+//   const handleContentChange = (e) => {
+//     const newContent = e.currentTarget.innerText;
+//     setContent(newContent);
+//     setIsSaved(false);
+
+//     if (ws && ws.readyState === WebSocket.OPEN && !isUpdatingRef.current) {
+//       ws.send(JSON.stringify({
+//         type: 'update',
+//         content: newContent,
+//         title
+//       }));
+//     }
+//   };
+
+//   const handleTitleChange = (e) => {
+//     const newTitle = e.target.value;
+//     setTitle(newTitle);
+//     setIsSaved(false);
+
+//     if (ws && ws.readyState === WebSocket.OPEN && !isUpdatingRef.current) {
+//       ws.send(JSON.stringify({
+//         type: 'update',
+//         content,
+//         title: newTitle
+//       }));
+//     }
+//   };
+
+//   const handleConnectSession = () => {
+//     if (sessionId) {
+//       // Disconnect if already connected
+//       if (ws) {
+//         ws.close();
+//         setWs(null);
+//       }
+//       setSessionId(null);
+//       return;
+//     }
+
+//     setIsConnecting(true);
+//     const newSessionId = Math.random().toString(36).substring(2, 15);
+//     const newWs = new WebSocket('ws://localhost:3001');
+
+//     newWs.onopen = () => {
+//       setSessionId(newSessionId);
+//       setIsConnecting(false);
+//       newWs.send(JSON.stringify({
+//         type: 'join',
+//         sessionId: newSessionId,
+//         content,
+//         title
+//       }));
+//     };
+
+//     newWs.onmessage = (event) => {
+//       try {
+//         const data = JSON.parse(event.data);
+//         isUpdatingRef.current = true;
+
+//         switch (data.type) {
+//           case 'init':
+//           case 'update':
+//             if (editorRef.current) {
+//               editorRef.current.innerText = data.content;
+//             }
+//             setContent(data.content);
+//             setTitle(data.title);
+//             break;
+//         }
+
+//         isUpdatingRef.current = false;
+//       } catch (error) {
+//         console.error('Error processing message:', error);
+//       }
+//     };
+
+//     newWs.onerror = () => {
+//       setIsConnecting(false);
+//       setSessionId(null);
+//       alert('Failed to connect to session. Please try again.');
+//     };
+
+//     newWs.onclose = () => {
+//       setSessionId(null);
+//       setWs(null);
+//     };
+
+//     setWs(newWs);
+//   };
+
+//   const formatDoc = (command, value = undefined) => {
+//     document.execCommand(command, false, value);
+//   };
+
+//   const getFormattedContent = () => {
+//     const element = editorRef.current;
+//     if (!element) return '';
+
+//     return `<!DOCTYPE html>
+//       <html>
+//         <head>
+//           <meta charset="utf-8">
+//           <title>${title}</title>
+//           <style>
+//             body {
+//               font-family: Arial, sans-serif;
+//               line-height: 1.6;
+//               max-width: 800px;
+//               margin: 40px auto;
+//               padding: 20px;
+//             }
+//             h1 {
+//               text-align: center;
+//               color: #333;
+//               margin-bottom: 30px;
+//             }
+//           </style>
+//         </head>
+//         <body>
+//           <h1>${title}</h1>
+//           ${element.innerHTML}
+//         </body>
+//       </html>`;
+//   };
+
+//   const downloadAsPDF = () => {
+//     const content = getFormattedContent();
+//     const printWindow = window.open('', '', 'width=800,height=600');
+//     if (!printWindow) return;
+
+//     printWindow.document.write(content);
+//     printWindow.document.close();
+    
+//     printWindow.onload = () => {
+//       printWindow.focus();
+//       printWindow.print();
+//       printWindow.close();
+//     };
+//   };
+
+//   const downloadAsDocx = () => {
+//     const content = getFormattedContent();
+//     const blob = new Blob([content], { type: 'application/msword' });
+//     const url = URL.createObjectURL(blob);
+//     const link = document.createElement('a');
+//     link.href = url;
+//     link.download = `${title}.doc`;
+//     document.body.appendChild(link);
+//     link.click();
+//     document.body.removeChild(link);
+//     URL.revokeObjectURL(url);
+//   };
+
+//   return (
+//     <div className="min-h-screen bg-gray-950">
+//       <header className="border-b border-gray-800 bg-gray-900 sticky top-0 z-10">
+//         <div className="flex items-center px-4 py-2">
+//           <Type className="h-8 w-8 text-blue-400 mr-2" />
+//           <div className="flex-1">
+//             <input
+//               type="text"
+//               value={title}
+//               onChange={handleTitleChange}
+//               className="text-lg font-medium focus:outline-none w-full bg-transparent text-gray-100"
+//               placeholder="Untitled Document"
+//             />
+//             <div className="flex items-center space-x-4 text-xs text-gray-400">
+//               <span className="hover:text-gray-200 cursor-pointer">File</span>
+//               <span className="hover:text-gray-200 cursor-pointer">Edit</span>
+//               <span className="hover:text-gray-200 cursor-pointer">View</span>
+//               <span className="hover:text-gray-200 cursor-pointer">Insert</span>
+//               <span className="hover:text-gray-200 cursor-pointer">Format</span>
+//               <span className="hover:text-gray-200 cursor-pointer">Tools</span>
+//             </div>
+//           </div>
+//           <div className="flex items-center space-x-3 mr-4">
+//             <button
+//               onClick={handleConnectSession}
+//               disabled={isConnecting}
+//               className={`flex items-center space-x-1 px-3 py-1.5 ${
+//                 sessionId ? 'bg-green-600' : 'bg-blue-500'
+//               } text-white rounded hover:opacity-90 transition-colors ${
+//                 isConnecting ? 'opacity-75 cursor-not-allowed' : ''
+//               }`}
+//             >
+//               <Share2 className="h-4 w-4" />
+//               <span>
+//                 {isConnecting
+//                   ? 'Connecting...'
+//                   : sessionId
+//                   ? `Connected (${sessionId})`
+//                   : 'Connect Session'}
+//               </span>
+//             </button>
+//             <div className="relative">
+//               <button
+//                 onClick={() => setIsDownloadMenuOpen(!isDownloadMenuOpen)}
+//                 className="flex items-center space-x-1 px-3 py-1.5 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+//               >
+//                 <Download className="h-4 w-4" />
+//                 <span>Download</span>
+//                 <ChevronDown className="h-4 w-4" />
+//               </button>
+//               {isDownloadMenuOpen && (
+//                 <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-gray-800 ring-1 ring-black ring-opacity-5">
+//                   <div className="py-1" role="menu" aria-orientation="vertical">
+//                     <button
+//                       onClick={() => {
+//                         downloadAsPDF();
+//                         setIsDownloadMenuOpen(false);
+//                       }}
+//                       className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white"
+//                       role="menuitem"
+//                     >
+//                       Download as PDF
+//                     </button>
+//                     <button
+//                       onClick={() => {
+//                         downloadAsDocx();
+//                         setIsDownloadMenuOpen(false);
+//                       }}
+//                       className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white"
+//                       role="menuitem"
+//                     >
+//                       Download as DOC
+//                     </button>
+//                   </div>
+//                 </div>
+//               )}
+//             </div>
+//           </div>
+//           <span className="text-sm text-gray-400">
+//             {isSaved ? 'All changes saved' : 'Unsaved changes'}
+//           </span>
+//         </div>
+        
+//         <div className="flex items-center space-x-2 px-4 py-2 border-t border-gray-800">
+//           <button onClick={() => formatDoc('bold')} className="p-1.5 hover:bg-gray-800 rounded text-gray-300 hover:text-gray-100">
+//             <Bold className="h-4 w-4" />
+//           </button>
+//           <button onClick={() => formatDoc('italic')} className="p-1.5 hover:bg-gray-800 rounded text-gray-300 hover:text-gray-100">
+//             <Italic className="h-4 w-4" />
+//           </button>
+//           <button onClick={() => formatDoc('underline')} className="p-1.5 hover:bg-gray-800 rounded text-gray-300 hover:text-gray-100">
+//             <Underline className="h-4 w-4" />
+//           </button>
+//           <div className="w-px h-6 bg-gray-800" />
+//           <button onClick={() => formatDoc('justifyLeft')} className="p-1.5 hover:bg-gray-800 rounded text-gray-300 hover:text-gray-100">
+//             <AlignLeft className="h-4 w-4" />
+//           </button>
+//           <button onClick={() => formatDoc('justifyCenter')} className="p-1.5 hover:bg-gray-800 rounded text-gray-300 hover:text-gray-100">
+//             <AlignCenter className="h-4 w-4" />
+//           </button>
+//           <button onClick={() => formatDoc('justifyRight')} className="p-1.5 hover:bg-gray-800 rounded text-gray-300 hover:text-gray-100">
+//             <AlignRight className="h-4 w-4" />
+//           </button>
+//           <div className="w-px h-6 bg-gray-800" />
+//           <button onClick={() => formatDoc('insertUnorderedList')} className="p-1.5 hover:bg-gray-800 rounded text-gray-300 hover:text-gray-100">
+//             <List className="h-4 w-4" />
+//           </button>
+//           <button onClick={() => formatDoc('insertOrderedList')} className="p-1.5 hover:bg-gray-800 rounded text-gray-300 hover:text-gray-100">
+//             <ListOrdered className="h-4 w-4" />
+//           </button>
+//         </div>
+//       </header>
+
+//       <main className="max-w-4xl mx-auto px-4 py-12">
+//         <div
+//           ref={editorRef}
+//           className="min-h-[1100px] w-full bg-gray-900 shadow-lg border border-gray-800 rounded-lg p-12 text-gray-100"
+//           contentEditable
+//           onInput={handleContentChange}
+//           suppressContentEditableWarning
+//           style={{ outline: 'none' }}
+//         >
+//           {content}
+//         </div>
+//       </main>
+//     </div>
+//   );
+// }
+
+// export default ByteDocs;
