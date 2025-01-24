@@ -298,7 +298,7 @@ const PostCard = ({ post, user, deletePost, likePost }) => {
       >
         <div className='flex gap-4'>
           <p 
-            className='flex gap-2 items-center text-base cursor-pointer bg-[#333D41] rounded-full p-1.5' 
+            className='flex gap-2 items-center text-base cursor-pointer bg-[#333D41] rounded-full p-2' 
             onClick={()=>{handleLike('/posts/like/' + post?._id)}}
           >
             {post?.likes?.includes(user?._id) ? (
@@ -310,7 +310,7 @@ const PostCard = ({ post, user, deletePost, likePost }) => {
           </p>
 
           <p
-            className='flex gap-2 items-center text-base cursor-pointer bg-[#333D41] rounded-full p-1.5'
+            className='flex gap-2 items-center text-base cursor-pointer bg-[#333D41] rounded-full p-2'
             onClick={() => {
               setShowComments(showComments === post._id ? null : post._id);
               getComments(post?._id);
