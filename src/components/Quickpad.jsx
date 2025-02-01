@@ -15,7 +15,7 @@ function Quickpad() {
     } = useNotes();
 
     return (
-        <div className=" bg-[#141618] text-gray-100 p-8 w-full h-auto max-w-full rounded-lg ">
+        <div className=" bg-[#141618] text-gray-100 p-8 w-full h-auto max-w-full rounded-lg bg-[url('./images/nexx.jpg')]  bg-cover">
             {/* Header */}
             <div className="max-w-7xl mx-auto mb-8">
                 <div className="flex justify-between items-center">

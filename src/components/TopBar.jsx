@@ -18,7 +18,7 @@ import ByteDocsSidebar from "./ByteDocsSidebar";
 
 
 const TopBar = () => {
-//Side bar for ByteCall 
+
 
   // State for ByteDocs Sidebar
   const [isBytedocOpen, setIsBytedocOpen] = useState(false);
@@ -101,30 +101,13 @@ const TopBar = () => {
       {/* Icons */}
       <div className="flex gap-3 items-center text-ascent-1 text-md md:text-xl">
         {/* Direct Message */}
-        <div
-          className="hidden lg:flex bg-[#065ad8] w-10 h-10 rounded-full text-white items-center justify-center cursor-pointer"
-          onClick={() => {
-            let newWindow = window.open(
-              "https://intelsy.onrender.com/",
-              "example",
-              "width=700,height=700,left=380,top=100"
-            );
-            newWindow.focus();
-            newWindow.onload = function () {
-              newWindow.document.body.insertAdjacentHTML(
-                "afterbegin",
-                `<div style="font-size:30px">ByteChat</div>`
-              );
-            };
-          }}
-        >
-          <i className="fa-solid fa-message" style={{ scale: "0.9" }}></i>
-        </div>
+
+
 
 {/* ByteCall , side BAr trigger and DIV */}
 
 <div className="hidden lg:flex bg-[#065ad8] w-10 h-10 rounded-full text-white items-center justify-center cursor-pointer">
-          <File onClick={toggleBytedoc} />
+          <i class="fa-solid fa-file" onClick={toggleBytedoc}></i>
           <div className="flex">
           <ByteDocsSidebar isOpen={isBytedocOpen} toggleSidebar={toggleBytedoc} />
 
@@ -179,7 +162,7 @@ const TopBar = () => {
         </div>
 
         {/* Intelsy Redirect */}
-        <div className="hidden lg:flex bg-[#1d2224] w-14 h-10 rounded-3xl text-white items-center justify-center">
+        {/* <div className="hidden lg:flex bg-[#1d2224] w-14 h-10 rounded-3xl text-white items-center justify-center">
           <a
             href="https://intelsy.onrender.com/"
             target="_blank"
@@ -191,7 +174,7 @@ const TopBar = () => {
               alt="Intelsy Compiler"
             />
           </a>
-        </div>
+        </div> */}
 
         {/* Log Out */}
         <div>

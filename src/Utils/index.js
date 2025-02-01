@@ -42,7 +42,7 @@ export const apiRequest = async({url, token, data, method}) => {
             }
         });
         
-        console.log('API Request Result:', result);
+        // console.log('API Request Result:', result);
         return result.data;
     } catch (error) {
         console.error('API Request Error:', error.response || error);

@@ -144,7 +144,7 @@ const Calendar = () => {
                   key={index}
                   onClick={() => handleDateClick(date)}
                   className={`
-                    relative min-h-[1px] p-3 rounded-xl border transition-all duration-200
+                    relative min-h-[1px] p-1 rounded-xl border transition-all duration-200
                     ${isCurrentMonth 
                       ? 'bg-gray-800/50 border-gray-700/50 hover:bg-gray-700/50 hover:border-gray-600' 
                       : 'bg-gray-900/30 border-gray-800/30 opacity-50 hover:bg-gray-800/30'}
@@ -170,7 +170,7 @@ const Calendar = () => {
                       <Plus size={16} className="text-blue-400" />
                     </button>
                   </div>
-                  <div className="mt-2 space-y-1">
+                  <div className="mt-1 space-y-1">
                     {dateEvents.map(event => (
                       <div 
                         key={event.id}
@@ -208,7 +208,7 @@ const Calendar = () => {
 
         {isModalOpen && (
           <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center">
-            <div className="bg-gray-800/90 backdrop-blur rounded-2xl p-2 w-full max-w-md border border-gray-700/50 shadow-2xl">
+            <div className="bg-gray-800/90 bg-[#141618] rounded-2xl p-2 w-full max-w-md border border-gray-700/50 shadow-2xl">
               <div className="flex items-center space-x-3 mb-6">
                 <Clock className="w-6 h-6 text-blue-400" />
                 <h3 className="text-2xl font-bold text-white">
@@ -225,7 +225,7 @@ const Calendar = () => {
                     type="text"
                     value={eventForm.title}
                     onChange={(e) => setEventForm({ ...eventForm, title: e.target.value })}
-                    className="w-full bg-gray-700/50 text-white rounded-lg p-3 border border-gray-600/50 focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200"
+                    className="w-full bg-gray-700/50 text-black rounded-lg p-3 border border-gray-600/50 focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200"
                     placeholder="Enter event title"
                     required
                   />
@@ -238,7 +238,7 @@ const Calendar = () => {
                   <textarea
                     value={eventForm.description}
                     onChange={(e) => setEventForm({ ...eventForm, description: e.target.value })}
-                    className="w-full bg-gray-700/50 text-white rounded-lg p-3 border border-gray-600/50 focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200"
+                    className="w-full bg-gray-700/50 text-gray-900 rounded-lg p-3 border border-gray-600/50 focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200"
                     rows={3}
                     placeholder="Enter event description"
                   />
