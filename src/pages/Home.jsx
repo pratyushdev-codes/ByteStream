@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { MentionsInput, Mention } from 'react-mentions'
 import {
   CustomButton,
   EditProfile,
@@ -20,7 +21,7 @@ import { userLogin } from "../redux/userSlice.js";
 import ProductBoard from "../components/ProductBoard";
 // import Dock from "../components/ui/Dock";
 // import Dock from "../components/ui/Dock";
-import { Mention } from "react-mentions";
+
 import Quickpad from "../components/Quickpad";
 import { ProjectTags } from "../components/ProjectTags";
 import { Toaster, toast } from 'react-hot-toast'; // Import toast
@@ -43,10 +44,18 @@ const Home = () => {
 
 
 
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   reset,
+  //   formState: { errors },
+  // } = useForm();
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm();
 
@@ -166,7 +175,7 @@ const Home = () => {
         const user = await getUserInfo(data?.token);
         setUserProfile(user);
         setError(null);
-        console.log("Message user data", user);
+        // console.log("Message user data", user);
       } catch (error) {
         console.error("Error fetching user:", error);
         setError("Failed to load user profile");
@@ -231,6 +240,28 @@ const Home = () => {
     setIsBytedocOpen(!isBytedocOpen);
   };
 
+  const [projects, setProjects] = useState(() => {
+    const userProjects = localStorage.getItem('userProjects');
+    return userProjects ? JSON.parse(userProjects) : [];
+  });
+
+  useEffect(() => {
+    const storedProjects = localStorage.getItem('userProjects');
+    if (storedProjects) setProjects(JSON.parse(storedProjects));
+  }, []);
+
+  // const { Option } = Mentions;
+  // var Demo = (
+  //   <Mentions>
+  //     <Option value="light">Light</Option>
+  //     <Option value="bamboo">Bamboo</Option>
+  //     <Option value="cat">Cat</Option>
+  //   </Mentions>
+  // );
+  // React.render(<Demo />, container);
+
+
+
   const navigate = useNavigate();
   //string for mentioning pproects
   // private mentionTarget: string = '#mentionElement';
@@ -275,25 +306,51 @@ const Home = () => {
                 </p>
 
                 <div className="flex flex-row gap-4 items-center mt-4">
-      {userProfile?.friends && userProfile.friends.length > 0 ? (
-        userProfile.friends.map((friend, index) => (
-          <div key={index} className="friend-profile flex flex-row gap-2 items-center">
-            <img
-              src={friend.profileUrl || NoProfile}
-              alt={friend.email || 'User'}
-              className="flex flex-row w-10 h-10 rounded-full "
-            /><p className="flex flex-row text-gray-400">are in the Stream !</p>
-          </div>
-        ))
-      ) : (
-        <p>No Stream connections yet.</p>
-      )}
-    </div>
-
-
-
-
+                  {/* {userProfile?.friends && userProfile.friends.length > 0 ? (
+                    userProfile.friends.map((friend, index) => (
+                      <div key={index} className="friend-profile flex flex-row gap-2 items-center">
+                        <img
+                          src={friend.profileUrl || NoProfile}
+                          alt={friend.email || 'User'}
+                          className="flex flex-row w-10 h-10 rounded-full "
+                        /><p className="flex flex-row text-gray-400">are in the Stream !</p>
+                      </div>
+                    ))
+                  ) : (
+                    <p>No Stream connections yet.</p>
+                  )} */}
+  <div className="flex -space-x-4 rtl:space-x-reverse mb-2">
+                {userProfile?.friends && userProfile.friends.length > 0 ? (
+                  <>
+                    {userProfile.friends.slice(0, 4).map((friend, index) => (
+                      <img
+                        key={friend._id || index}
+                        className="w-10 h-10 rounded-full border-2 border-white dark:border-gray-800 hover:z-10 transition-transform hover:scale-110"
+                        src={friend.profileUrl || NoProfile}
+                        alt={friend.email || 'User'}
+                        title={`${friend.firstName} ${friend.lastName}`}
+                      />
+                    ))}
+                    {userProfile.friends.length > 4 && (
+                      <div
+                        className="flex items-center justify-center w-12 h-12 text-xs font-medium text-white bg-gray-700 rounded-full border-2 border-white hover:bg-gray-600 dark:border-gray-800 hover:z-10"
+                      >
+                        +{userProfile.friends.length - 4}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <p className="text-gray-400">No Stream connections yet.</p>
+                )}
               </div>
+              {userProfile?.friends && userProfile.friends.length > 0 && (
+                <p className="text-gray-400 mt-2">
+                  are in the Stream!
+                </p>
+              )}
+            </div>
+          </div>
+         
 
 
               <div className="flex gap-6 justify-center mt-4">
@@ -374,7 +431,7 @@ const Home = () => {
                   alt='User Image'
                   className='w-14 h-14 rounded-full object-cover'
                 />
-                <TextInput
+                {/* <TextInput
                   styles='w-full rounded-full py-5'
                   placeholder="What's on your mind...."
                   name='description'
@@ -382,7 +439,35 @@ const Home = () => {
                     required: "Write something about post",
                   })}
                   error={errors.description ? errors.description.message : ""}
-                />
+                /> */}
+                <MentionsInput
+  className="mentions-input text-white"
+  style={{
+    width: "100%",
+    borderRadius: "999px",
+    padding: "1.25rem 1rem",
+    border: "none",
+    outline: "none",
+
+    color: errors.description ? "#f64949fe" : "inherit",
+  }}
+  placeholder="Tag projects by @"
+  value={watch("description") || ""}
+  onChange={(e) => {
+    setValue("description", e.target.value);
+  }}
+>
+  <Mention
+    trigger="@"
+    data={projects.map((project) => ({
+      id: project.tag || project.id,
+      display: project.tag,
+    }))}
+    markup="@[__display__]"
+    displayTransform={(_, display) => `@${display}`}
+    style={{ backgroundColor: "#c8daf8" }}
+  />
+</MentionsInput>
               </div>
               {errMsg?.message && (
                 <span
@@ -522,7 +607,7 @@ const Home = () => {
           <div className='hidden w-1/4 h-full lg:flex flex-col gap-8 overflow-y-auto'>
             {/* FRIEND REQUEST */}
             <div className='w-full bg-primary shadow-sm rounded-lg px-6 py-5'>
-              <div className='flex items-center justify-between text-xl text-ascent-1 pb-2 border-b border-[#66666645]'>
+              <div className='flex items-center justify-between text-xl text-ascent-1 pb-2 '>
                 <span className="text-xl text-ascent-1  font-semibold flex flex-row"> Stream Requests &nbsp; <i className="fa-solid fa-code-pull-request " style={{ scale: "0.9" }}></i></span>
                 <span>{friendRequest?.length}</span>
                 {(!friendRequest) && <span>0</span>}

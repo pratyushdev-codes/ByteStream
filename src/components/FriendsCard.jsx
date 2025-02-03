@@ -6,7 +6,7 @@ const FriendsCard = ({ friends }) => {
   return (
     <div className="w-full">
       <div className="w-full bg-primary shadow-sm rounded-lg px-6 py-5">
-        <div className="flex items-center justify-between text-ascent-1 pb-2 border-b border-[#66666645]">
+        <div className="flex items-center justify-between text-ascent-1 pb-2 ">
           <span className="text-xl text-ascent-1 font-semibold flex flex-row">
             Stream Connections &nbsp; 
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#D9D9D9">

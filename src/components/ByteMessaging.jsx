@@ -12,7 +12,7 @@ const ByteMessaging = () => {
   return (
     <div className="w-full bg-primary shadow-sm rounded-xl px-6 py-4">
       <div className="max-w-5xl mx-auto">
-        <div className="flex items-center justify-between text-ascent-1 pb-2 border-b border-[#66666645]">
+        <div className="flex items-center justify-between text-ascent-1 pb-2 ">
           <span className="text-xl text-ascent-1 font-semibold flex flex-row">
             ByteChat &nbsp;
             <i className="fa-regular fa-message pt-1 px-1" style={{ scale: "0.9" }}></i>

@@ -17,6 +17,29 @@ top: 0px;
 z-index: 49;
 }
 
+.mentions-input {
+  width: 100%;
+  border-radius: 999px;
+  padding: 1.25rem 1rem;
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+
+.mentions-input__suggestions {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mentions-input__suggestions__item {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.mentions-input__suggestions__item--focused {
+  background-color: #f0f4f8;
+}
 
 .dots-container {
   display: flex;

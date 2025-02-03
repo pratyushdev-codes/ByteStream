@@ -48,7 +48,6 @@ function ByteMessageMainComp({ isOpen, toggleSidebar, userId }) {
         const user = await getUserInfo(data?.token);
         setUserProfile(user);
         setError(null);
-        // console.log("Message user data", user);
       } catch (error) {
         console.error("Error fetching user:", error);
         setError("Failed to load user profile");
@@ -73,7 +72,7 @@ function ByteMessageMainComp({ isOpen, toggleSidebar, userId }) {
 
     const message = {
       type: "message",
-      username: userProfile?.firstName || "Anonymous", // Ensure firstName is used
+      username: userProfile?.firstName || "Anonymous",
       content: messageInput,
       timestamp: new Date().toISOString(),
     };
@@ -81,6 +80,24 @@ function ByteMessageMainComp({ isOpen, toggleSidebar, userId }) {
     wsRef.current.send(JSON.stringify(message));
     setMessageInput("");
   };
+
+  // Group messages by user and consecutive messages
+  const groupedMessages = messages.reduce((groups, message, index) => {
+    const prevMessage = messages[index - 1];
+    const isSameUser = prevMessage && prevMessage.username === message.username;
+    const isWithinTimeWindow = prevMessage && 
+      (new Date(message.timestamp).getTime() - new Date(prevMessage.timestamp).getTime() < 300000); // 5 minutes
+
+    if (isSameUser && isWithinTimeWindow) {
+      groups[groups.length - 1].messages.push(message);
+    } else {
+      groups.push({
+        username: message.username,
+        messages: [message],
+      });
+    }
+    return groups;
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -96,9 +113,8 @@ function ByteMessageMainComp({ isOpen, toggleSidebar, userId }) {
             >
               ByteChat
             </span>
-          
           </h1>
-          <div className="flex items-center gap-1 bg-gray-700 py-2 px-3 rounded-full">
+          <div className="flex items-center gap-3 bg-gray-700 py-2 px-3 rounded-full">
             {loading ? (
               <div className="w-8 h-8 rounded-full bg-gray-600 animate-pulse" />
             ) : error ? (
@@ -120,11 +136,11 @@ function ByteMessageMainComp({ isOpen, toggleSidebar, userId }) {
             <span className={`w-3 h-3 rounded-full ${isConnected ? "bg-green-500" : "bg-red-500"}`} />
           </div>
           <button
-              onClick={toggleSidebar}
-              className="text-gray-300 hover:text-white transition-colors"
-            >
-              <X size={24} />
-            </button>
+            onClick={toggleSidebar}
+            className="text-gray-300 hover:text-white transition-colors"
+          >
+            <X size={24} />
+          </button>
         </div>
       </header>
 
@@ -136,41 +152,77 @@ function ByteMessageMainComp({ isOpen, toggleSidebar, userId }) {
             </div>
           )}
           <AnimatePresence>
-            {messages.map((message, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-                className={`flex flex-col ${message.username === userProfile?.firstName ? "items-end" : "items-start"}`}
-              >
-                <div className="flex flex-row ">
-                <div className="w-8 h-8 rounded-full overflow-hidden">
-                  <img
-                    src={userProfile?.profileUrl || NoProfile}
-                    alt={userProfile?.email || "User"}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div
-                  className={`max-w-[80%] break-words rounded-3xl p-3 shadow-md ${message.username === userProfile?.firstName
-                      ? "bg-blue-600 text-white "
-                      : "bg-transparent border border-gray-700 text-gray-200"
-                    }`}
+            <div className="flex flex-col space-y-6">
+              {groupedMessages.map((group, groupIndex) => (
+                <motion.div
+                  key={groupIndex}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                  className={`flex ${group.username === userProfile?.firstName ? "justify-end" : "justify-start"}`}
                 >
-
-                  <div className="font-semibold text-xs mb-1 text-gray-400">
-                    {message.username === userProfile?.firstName ? "You" : message.username}
+                  <div className="flex items-start max-w-[80%] space-x-2">
+                    {group.username !== userProfile?.firstName && (
+                      <div className="flex-shrink-0">
+                        <div className="relative w-8 h-8">
+                          <img
+                            src={userProfile?.profileUrl || NoProfile}
+                            alt={group.username}
+                            className="absolute top-0 left-0 w-8 h-8 rounded-full object-cover border-2 border-gray-800"
+                          />
+                          {group.messages.length > 1 && (
+                            <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center text-[10px] text-white">
+                              {group.messages.length}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                    <div className="flex flex-col space-y-1">
+                      <div className="font-semibold text-xs text-gray-400 mb-1">
+                        {group.username === userProfile?.firstName ? "You" : group.username}
+                      </div>
+                      {group.messages.map((message, messageIndex) => (
+                        <div
+                          key={messageIndex}
+                          className={`break-words rounded-xl px-4 py-2 ${
+                            group.username === userProfile?.firstName
+                              ? "bg-blue-600 text-white"
+                              : "bg-gray-700 text-white"
+                          } ${messageIndex === 0 ? "rounded-t-xl" : ""} ${
+                            messageIndex === group.messages.length - 1 ? "rounded-b-xl" : ""
+                          }`}
+                        >
+                          <div className="text-sm">{message.content}</div>
+                          {messageIndex === group.messages.length - 1 && (
+                            <div className="text-xs opacity-75 mt-1">
+                              {new Date(message.timestamp).toLocaleTimeString()}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                    {group.username === userProfile?.firstName && (
+                      <div className="flex-shrink-0">
+                        <div className="relative w-8 h-8">
+                          <img
+                            src={userProfile?.profileUrl || NoProfile}
+                            alt="You"
+                            className="absolute top-0 left-0 w-8 h-8 rounded-full object-cover border-2 border-gray-800"
+                          />
+                          {group.messages.length > 1 && (
+                            <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center text-[10px] text-white">
+                              {group.messages.length}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
                   </div>
-                  <div className="text-sm">{message.content}</div>
-                  <div className="text-xs opacity-75 mt-1">
-                    {new Date(message.timestamp).toLocaleTimeString()}
-                  </div>
-                </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              ))}
+            </div>
           </AnimatePresence>
           <div ref={messagesEndRef} />
         </div>
@@ -189,7 +241,7 @@ function ByteMessageMainComp({ isOpen, toggleSidebar, userId }) {
             disabled={!isConnected || loading || error}
             className="bg-[#045AD8] text-white p-4 rounded-full transition duration-200 transform disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <Send className="w-5 h-5" />
+            <Send className="" />
           </button>
         </form>
       </main>
