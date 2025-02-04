@@ -260,8 +260,70 @@ const Home = () => {
   // );
   // React.render(<Demo />, container);
 
-
-
+  const mentionsInputStyle = {
+    control: {
+      backgroundColor: 'transparent',
+      fontSize: 16,
+      fontWeight: 'normal',
+      minHeight: '50px',
+      position: 'relative',
+      width: '100%'
+    },
+    input: {
+      margin: 0,
+      padding: '12px 16px',
+      border: '1px solid #374151',
+      borderRadius: '9999px',
+      backgroundColor: 'transparent',
+      color: '#ffffff',
+      width: '100%',
+      minHeight: '50px',
+      outline: 'none',
+      position: 'relative',
+      zIndex: 1
+    },
+    suggestions: {
+      list: {
+        backgroundColor: '#1f2937',
+        border: '1px solid #374151',
+        borderRadius: '0.5rem',
+        fontSize: 14,
+        position: 'absolute',
+        top: '100%',
+        left: 0,
+        right: 0,
+        zIndex: 10
+      },
+      item: {
+        padding: '8px 15px',
+        color: '#fff',
+        '&focused': {
+          backgroundColor: '#374151'
+        }
+      }
+    },
+    highlighter: {
+      overflow: 'hidden',
+      position: 'absolute',
+      top: 14,
+      left: 18,
+      right: 0,
+      bottom: 0,
+      color: 'transparent',
+      zIndex: 0
+    }
+  };
+  
+  // Custom styles for the mention suggestions
+  const mentionStyle = {
+    backgroundColor: '#3b82f6',
+    borderRadius: '0.25rem',
+    padding: '0.125rem 0.5rem',
+    color: '#fff',
+    marginRight: '0.5rem', // Add spacing after the tag
+    display: 'inline-block'
+  };
+  
   const navigate = useNavigate();
   //string for mentioning pproects
   // private mentionTarget: string = '#mentionElement';
@@ -319,38 +381,38 @@ const Home = () => {
                   ) : (
                     <p>No Stream connections yet.</p>
                   )} */}
-  <div className="flex -space-x-4 rtl:space-x-reverse mb-2">
-                {userProfile?.friends && userProfile.friends.length > 0 ? (
-                  <>
-                    {userProfile.friends.slice(0, 4).map((friend, index) => (
-                      <img
-                        key={friend._id || index}
-                        className="w-10 h-10 rounded-full border-2 border-white dark:border-gray-800 hover:z-10 transition-transform hover:scale-110"
-                        src={friend.profileUrl || NoProfile}
-                        alt={friend.email || 'User'}
-                        title={`${friend.firstName} ${friend.lastName}`}
-                      />
-                    ))}
-                    {userProfile.friends.length > 4 && (
-                      <div
-                        className="flex items-center justify-center w-12 h-12 text-xs font-medium text-white bg-gray-700 rounded-full border-2 border-white hover:bg-gray-600 dark:border-gray-800 hover:z-10"
-                      >
-                        +{userProfile.friends.length - 4}
-                      </div>
+                  <div className="flex -space-x-4 rtl:space-x-reverse mb-2">
+                    {userProfile?.friends && userProfile.friends.length > 0 ? (
+                      <>
+                        {userProfile.friends.slice(0, 4).map((friend, index) => (
+                          <img
+                            key={friend._id || index}
+                            className="w-10 h-10 rounded-full border-2 border-white dark:border-gray-800 hover:z-10 transition-transform hover:scale-110"
+                            src={friend.profileUrl || NoProfile}
+                            alt={friend.email || 'User'}
+                            title={`${friend.firstName} ${friend.lastName}`}
+                          />
+                        ))}
+                        {userProfile.friends.length > 4 && (
+                          <div
+                            className="flex items-center justify-center w-12 h-12 text-xs font-medium text-white bg-gray-700 rounded-full border-2 border-white hover:bg-gray-600 dark:border-gray-800 hover:z-10"
+                          >
+                            +{userProfile.friends.length - 4}
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      <p className="text-gray-400">No Stream connections yet.</p>
                     )}
-                  </>
-                ) : (
-                  <p className="text-gray-400">No Stream connections yet.</p>
-                )}
+                  </div>
+                  {userProfile?.friends && userProfile.friends.length > 0 && (
+                    <p className="text-gray-400 mt-2">
+                      are in the Stream!
+                    </p>
+                  )}
+                </div>
               </div>
-              {userProfile?.friends && userProfile.friends.length > 0 && (
-                <p className="text-gray-400 mt-2">
-                  are in the Stream!
-                </p>
-              )}
-            </div>
-          </div>
-         
+
 
 
               <div className="flex gap-6 justify-center mt-4">
@@ -361,7 +423,7 @@ const Home = () => {
                     <i class="fa-solid fa-square blink" style={{ color: "#ff3737", scale: "0.9" }}></i><br />
                   </div>
 
-                  <span className="text-sm font-medium">Schedule Meets in ByteMeet</span>
+                  <span className="text-sm font-medium">Schedule Meets in ByteCall</span>
                 </div>
 
 
@@ -440,34 +502,34 @@ const Home = () => {
                   })}
                   error={errors.description ? errors.description.message : ""}
                 /> */}
+                <div className="w-full ">
                 <MentionsInput
-  className="mentions-input text-white"
-  style={{
-    width: "100%",
-    borderRadius: "999px",
-    padding: "1.25rem 1rem",
-    border: "none",
-    outline: "none",
+                  className="mentions-input "
+                  style={mentionsInputStyle}
+                  placeholder="What's on your mind...  (@ to tag projects)"
+                  value={watch("description") || ""}
+                  onChange={(e) => {
+                    setValue("description", e.target.value);
+                  }}
+                >
+                  <Mention
+                    trigger="@"
+                    data={projects.map((project) => ({
+                      id: project.id,
+                      display: project.name,
+                    }))}
+                    markup="project/@__display__:"
+                    displayTransform={(_, display) => `@${display}`}
+                    
+                    style={{
+                      backgroundColor: '#3b82f6',
+                      borderRadius: '0.25rem',
+                      padding: '0.125rem 0.50rem',
 
-    color: errors.description ? "#f64949fe" : "inherit",
-  }}
-  placeholder="Tag projects by @"
-  value={watch("description") || ""}
-  onChange={(e) => {
-    setValue("description", e.target.value);
-  }}
->
-  <Mention
-    trigger="@"
-    data={projects.map((project) => ({
-      id: project.tag || project.id,
-      display: project.tag,
-    }))}
-    markup="@[__display__]"
-    displayTransform={(_, display) => `@${display}`}
-    style={{ backgroundColor: "#c8daf8" }}
-  />
-</MentionsInput>
+                    }}
+                  />
+                </MentionsInput>
+                </div>
               </div>
               {errMsg?.message && (
                 <span

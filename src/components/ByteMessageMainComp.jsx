@@ -18,7 +18,7 @@ function ByteMessageMainComp({ isOpen, toggleSidebar, userId }) {
 
   // WebSocket connection
   useEffect(() => {
-    wsRef.current = new WebSocket("ws://localhost:8000");
+    wsRef.current = new WebSocket("https://bytestream-videocall-backendservice.onrender.com");
 
     wsRef.current.onopen = () => {
       setIsConnected(true);

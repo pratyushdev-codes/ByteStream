@@ -21,7 +21,7 @@ export default function VideoChat() {
   const roomId = 'test-room'; // In a real app, generate this dynamically
 
   useEffect(() => {
-    socketRef.current = io('http://localhost:8000');
+    socketRef.current = io('https://bytecall-backend-services.onrender.com/');
 
     const init = async () => {
       try {
