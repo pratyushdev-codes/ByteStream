@@ -18,7 +18,7 @@ function ByteMessageMainComp({ isOpen, toggleSidebar, userId }) {
 
   // WebSocket connection
   useEffect(() => {
-    wsRef.current = new WebSocket("https://bytestream-videocall-backendservice.onrender.com");
+    wsRef.current = new WebSocket("https://bytecall-messaging-backend-service.onrender.com/");
 
     wsRef.current.onopen = () => {
       setIsConnected(true);
@@ -75,6 +75,7 @@ function ByteMessageMainComp({ isOpen, toggleSidebar, userId }) {
       username: userProfile?.firstName || "Anonymous",
       content: messageInput,
       timestamp: new Date().toISOString(),
+      senderId: userProfile?.id // Add sender ID to identify message ownership
     };
 
     wsRef.current.send(JSON.stringify(message));
@@ -94,10 +95,15 @@ function ByteMessageMainComp({ isOpen, toggleSidebar, userId }) {
       groups.push({
         username: message.username,
         messages: [message],
+        senderId: message.senderId
       });
     }
     return groups;
   }, []);
+
+  const isCurrentUser = (senderId) => {
+    return senderId === userProfile?.id;
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -160,14 +166,14 @@ function ByteMessageMainComp({ isOpen, toggleSidebar, userId }) {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.3 }}
-                  className={`flex ${group.username === userProfile?.firstName ? "justify-end" : "justify-start"}`}
+                  className={`flex ${isCurrentUser(group.senderId) ? "justify-end" : "justify-start"}`}
                 >
                   <div className="flex items-start max-w-[80%] space-x-2">
-                    {group.username !== userProfile?.firstName && (
+                    {!isCurrentUser(group.senderId) && (
                       <div className="flex-shrink-0">
                         <div className="relative w-8 h-8">
                           <img
-                            src={userProfile?.profileUrl || NoProfile}
+                            src={NoProfile} // Use a different avatar for other users
                             alt={group.username}
                             className="absolute top-0 left-0 w-8 h-8 rounded-full object-cover border-2 border-gray-800"
                           />
@@ -181,13 +187,13 @@ function ByteMessageMainComp({ isOpen, toggleSidebar, userId }) {
                     )}
                     <div className="flex flex-col space-y-1">
                       <div className="font-semibold text-xs text-gray-400 mb-1">
-                        {group.username === userProfile?.firstName ? "You" : group.username}
+                        {isCurrentUser(group.senderId) ? "You" : group.username}
                       </div>
                       {group.messages.map((message, messageIndex) => (
                         <div
                           key={messageIndex}
                           className={`break-words rounded-xl px-4 py-2 ${
-                            group.username === userProfile?.firstName
+                            isCurrentUser(group.senderId)
                               ? "bg-blue-600 text-white"
                               : "bg-gray-700 text-white"
                           } ${messageIndex === 0 ? "rounded-t-xl" : ""} ${
@@ -203,7 +209,7 @@ function ByteMessageMainComp({ isOpen, toggleSidebar, userId }) {
                         </div>
                       ))}
                     </div>
-                    {group.username === userProfile?.firstName && (
+                    {isCurrentUser(group.senderId) && (
                       <div className="flex-shrink-0">
                         <div className="relative w-8 h-8">
                           <img

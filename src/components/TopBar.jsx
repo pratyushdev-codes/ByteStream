@@ -58,7 +58,8 @@ const TopBar = () => {
 
 
   return (
-    <div className="topbar w-full flex items-center justify-between py-3 md:py-6 px-4 bg-[black]  text-white rounded-xl">
+<div className={`topbar w-full flex items-center justify-between py-3 md:py-6 px-4 rounded-xl 
+    ${theme === "dark" ? "bg-black text-white" : "bg-white text-black"}`}>
       <Link to="/" className="flex gap-2 items-center">
         <div className="rounded text-white">
           <img
@@ -71,9 +72,11 @@ const TopBar = () => {
             alt="ByteStream"
           />
         </div>
-        <span className="text-xl md:text-3xl  text-[#5B81FE] font-semibold">
-          Byte<span style={{ color: "white" }}>Stream</span>.
-        </span>
+        <span className="text-xl md:text-3xl text-[#5B81FE] font-semibold">
+  Byte
+  <span style={{ color: theme === "dark" ? "white" : "black" }}>Stream</span>.
+</span>
+
       </Link>
 
       {/* Search Form */}
@@ -150,16 +153,22 @@ const TopBar = () => {
 
         {/* Theme Toggle */}
         <button
-          className="bg-[#1d2224] hidden lg:flex w-10 h-10 rounded-full text-white flex items-center justify-center"
-          onClick={() => handleTheme()}
-        >
-          {theme === "light" ? <BsMoon /> : <BsSunFill />}
-        </button>
+  className={`hidden lg:flex w-10 h-10 rounded-full flex items-center justify-center 
+    ${theme === "dark" ? "bg-black text-white" : "bg-white text-black border border-gray-300"}`}
+  onClick={() => handleTheme()}
+>
+  {theme === "light" ? <BsMoon /> : <BsSunFill />}
+</button>
+
 
         {/* Notifications */}
-        <div className="hidden lg:flex bg-[#1d2224] w-10 h-10 rounded-full text-white items-center justify-center">
-          <IoMdNotificationsOutline />
-        </div>
+        <div
+  className={`hidden lg:flex w-10 h-10 rounded-full items-center justify-center 
+    ${theme === "dark" ? "bg-black text-white" : "bg-white text-black border border-gray-300"}`}
+>
+  <IoMdNotificationsOutline />
+</div>
+
 
         {/* Intelsy Redirect */}
         {/* <div className="hidden lg:flex bg-[#1d2224] w-14 h-10 rounded-3xl text-white items-center justify-center">

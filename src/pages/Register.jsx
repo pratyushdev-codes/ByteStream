@@ -229,10 +229,10 @@ const Register = () => {
 
           <div className='mt-16 text-center'>
             <p className='text-white text-base'>
-              Connecting Friends, Sharing Joy: Where Fun Never Ends!
+            Meets teams where they work!
             </p>
             <span className='text-sm text-white/80'>
-              Share memories with friends and the world.
+            Link work to goals so everyone can see how their work contributes to company objectives and stay aligned to what’s important.
             </span>
           </div>
         </div>

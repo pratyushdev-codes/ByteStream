@@ -8,6 +8,7 @@ try {
     const savedTheme = JSON.parse(window?.localStorage.getItem('theme'));
     if (savedTheme) {
         initialState.theme = savedTheme;
+      
     }
 } catch (e) {
     console.error("Error parsing stored theme:", e);

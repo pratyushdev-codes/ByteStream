@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Plus } from 'lucide-react';
 import toast from 'react-hot-toast';
-
+import { useDispatch, useSelector } from "react-redux";
 export function AddNoteForm({ onAdd }) {
   const [content, setContent] = useState('');
   const [category, setCategory] = useState('tasks');
+  const { theme } = useSelector((state) => state.theme);
 
   const handleSubmit = () => {
     if (content.trim()) {
@@ -39,18 +40,20 @@ export function AddNoteForm({ onAdd }) {
             placeholder="     Write your note here..."
             className="flex-1 bg-white/5 border border-[#666] rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-500 min-h-[15px] resize-none"
           />
-          <button
-onClick={() => {
-  handleSubmit();
-  toast.success("Note Added to Quick Pad");
-}}
+         <button
+  onClick={() => {
+    handleSubmit();
+    toast.success("Note Added to Quick Pad");
+  }}
+  className={`flex items-center gap-2 px-4 md:px-4 py-1 md:py-2 rounded-full transition-colors text-white 
+    ${theme === "light" ? "border border-gray-700" : "bg-[#27282A]"}`}
+>
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#D9D9D9">
+    <path d="M200-120v-640q0-33 23.5-56.5T280-840h240v80H280v518l200-86 200 86v-278h80v400L480-240 200-120Zm80-640h240-240Zm400 160v-80h-80v-80h80v-80h80v80h80v80h-80v80h-80Z"/>
+  </svg>
+  Add Note
+</button>
 
-            
-            className="flex items-center gap-2 bg-[#27282A]  px-4 md:px-4 py-1 md:py-2 rounded-full transition-colors text-white"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#D9D9D9"><path d="M200-120v-640q0-33 23.5-56.5T280-840h240v80H280v518l200-86 200 86v-278h80v400L480-240 200-120Zm80-640h240-240Zm400 160v-80h-80v-80h80v-80h80v80h80v80h-80v80h-80Z"/></svg>
-            Add Note
-          </button>
         </div>
       </div>
     </div>

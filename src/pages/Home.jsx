@@ -41,7 +41,7 @@ const Home = () => {
   const [userProfile, setUserProfile] = useState(null);
   const [error, setError] = useState(null);
   const { user: data } = useSelector((state) => state.user);
-
+  const { theme } = useSelector((state) => state.theme);
 
 
   // const {
@@ -342,17 +342,31 @@ const Home = () => {
           <div className='flex-1 h-full px-4 flex flex-col gap-6 overflow-y-auto rounded-lg'>
 
             {/* Activity Center Heading */}
-            <div className="w-full py-4 md:py-6 px-4 bg-primary bg-[url('./images/grad1.png')] rounded-lg text-[blue]">
+            <div
+  className={`w-full py-4 md:py-6 px-4 rounded-lg 
+    ${theme === "dark" ? "bg-[url('./images/grad1.png')] text-white" : "bg-white text-black border border-gray-700 rounded-3xl"}`}
+>
+
+
+
 
               <div className="max-w-7xl mx-auto mb-8">
                 <div className="flex justify-between items-center">
-                  <h1 className="text-3xl font-semibold text-transparent" style={{
-                    background: 'linear-gradient(154deg, rgb(221, 230, 232), rgb(221, 230, 232), rgb(51, 152, 219))',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                  }}>
-                    Dynamic Space
-                  </h1>
+                <h1
+  className="text-3xl font-semibold"
+  style={
+    theme === "light"
+      ? { color: "black" } // Light Mode: Black Text
+      : {
+          background: "linear-gradient(154deg, rgb(221, 230, 232), rgb(51, 152, 219))",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+        } // Dark Mode: Gradient Text
+  }
+>
+  Dynamic Space
+</h1>
+
                   <div className="flex items-center gap-4">
                     <button
 

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { PlusCircle, Calendar, CheckCircle2, Clock, ListTodo } from 'lucide-react';
 import { TaskChart } from './TaskChart';
+import { useDispatch, useSelector } from "react-redux";
 import { TaskColumn } from './TaskColumn';
 import toast from 'react-hot-toast';
 
 function ProductBoard() {
+  const { theme } = useSelector((state) => state.theme);
   const [tasks, setTasks] = useState(() => {
     const savedTasks = localStorage.getItem('kanbanTasks');
     return savedTasks ? JSON.parse(savedTasks) : [];
@@ -87,19 +89,30 @@ function ProductBoard() {
     done: tasks.filter(t => t.status === 'done').length,
   };
 
+
   return (
-<div 
-      className="min-h-screen bg-cover bg-center bg-no-repeat opacity-90 text-gray-100 p-8 w-full max-w-full overflow-auto rounded-lg bg-[url('./images/header2.jpg')]">
+<div
+  className={`min-h-screen bg-cover bg-center bg-no-repeat opacity-90 p-8 w-full max-w-full overflow-auto 
+    ${theme === "dark" ? "bg-[url('./images/header2.jpg')] rounded-lg text-white" : "bg-white text-black border border-gray-700 rounded-lg"}`}
+>
 
       <div className="max-w-7xl mx-auto mb-8">
         <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-semibold text-transparent" style={{
-    background: 'linear-gradient(154deg, rgb(221, 230, 232), rgb(221, 230, 232), rgb(51, 152, 219))',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-  }}>
-            Product Board
-          </h1>
+        <h1
+  className="text-3xl font-semibold"
+  style={
+    theme === "light"
+      ? { color: "black" } // Light Mode: Black Text
+      : {
+          background: "linear-gradient(154deg, rgb(221, 230, 232), rgb(51, 152, 219))",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+        } // Dark Mode: Gradient Text
+  }
+>
+  Product Board
+</h1>
+
           <div className="flex items-center gap-4">
             <button
               onClick={() => {
