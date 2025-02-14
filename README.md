@@ -39,71 +39,20 @@ Ensure you have the following installed:
 - **MongoDB** (Local/Cloud Instance)
 - **Redis** (Local/Cloud Instance)
 
-### Installation
 
-```sh
-# Clone the repository
-git clone https://github.com/your-username/byte-stream.git
-cd byte-stream
 
-# Install dependencies
-yarn install  # or npm install
-```
-
-### Environment Variables
-
-Create a `.env` file in the root directory and add the following:
-
-```env
-MONGO_URI=your-mongodb-url
-REDIS_URL=your-redis-url
-JWT_SECRET=your-secret-key
-SMTP_USER=your-email
-SMTP_PASS=your-email-password
-```
-
-### Running the Application
-
-```sh
-# Start the development server
-yarn dev  # or npm run dev
-
-# Start the backend server
-yarn server  # or npm run server
-```
 
 ## 📚 API Endpoints
 
-| Method | Endpoint           | Description         |
-| ------ | ------------------ | ------------------- |
-| POST   | `/api/auth/signup` | Register a new user |
-| POST   | `/api/auth/login`  | Login a user        |
-| GET    | `/api/chat`        | Fetch chat messages |
-| POST   | `/api/chat/send`   | Send a chat message |
+| Feature              | GitHub Repo                                                                                      | Description                                      |
+|----------------------|------------------------------------------------------------------------------------------------|--------------------------------------------------|
+| **ByteStream - Client**  | [ByteStream](https://github.com/pratyushdev-codes/ByteStream)                                | Client-side for the app                         |
+| **ByteStream - Server**  | [ByteStream Backend](https://github.com/pratyushdev-codes/ByteStream_Backend_Server)        | Backend server for the app                      |
+| **ByteCall - Server**    | [ByteCall WebRTC](https://github.com/pratyushdev-codes/ByteCall_Videocall_BackendServices)  | WebRTC backend services for in-app video calling |
+| **ByteChat - Server**    | [ByteChat Server](https://github.com/pratyushdev-codes/ByteChat_Server)                     | Low latency Redis caching server for chat       |
+| **ByteDocs - Server**    | [ByteDocs WebSocket](https://github.com/pratyushdev-codes/ByteDocs_server)                  | WebSocket server for documents                  |
 
-## 📌 Contributing
 
-Contributions are welcome! Follow these steps:
-
-1. Fork the repository
-2. Create a new branch (`git checkout -b feature-branch`)
-3. Commit your changes (`git commit -m 'Add new feature'`)
-4. Push to the branch (`git push origin feature-branch`)
-5. Open a **Pull Request**
-
-## 📜 License
-
-This project is licensed under the **MIT License**.
-
-## ✨ Contributors
-
-- [Your Name](https://github.com/your-username)
-
-## 📞 Contact
-
-For any queries, reach out at: [**your-email@example.com**](mailto\:your-email@example.com)
-
----
 
 Give this repo a ⭐ if you found it useful!
 
