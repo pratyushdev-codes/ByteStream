@@ -34,7 +34,7 @@ Byte Stream is a high-performance, unified workplace product management solution
 | **ByteDocs - Server**    | [ByteDocs WebSocket](https://github.com/pratyushdev-codes/ByteDocs_server)                  | WebSocket server for documents                  |
 
 
-## 📸 App Screesnshots
+## 📸 App Images
 
 <img width="1470" alt="image" src="https://github.com/user-attachments/assets/adba175d-b6f4-460d-b558-d1e3076ac55f" />
 <img width="1470" alt="image" src="https://github.com/user-attachments/assets/ab61adae-c2f5-43a4-92ad-3fe11ad7d4ed" />
