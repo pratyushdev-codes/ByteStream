@@ -55,8 +55,8 @@ Byte Stream is a high-performance, unified workplace product management solution
 - **DevOps & Deployment:** Docker, Turborepo, Aiven Cloud
 
 ## 🚀 Demo User ID and Password
-User Email ID: 
-Password:
+User Email ID: pratyush.jagdish.birole@gmail.com  
+Password: 12345
 
 
 Give this repo a ⭐ if you found it useful!
