@@ -51,7 +51,7 @@ Byte Stream is a high-performance, unified workplace product management solution
 - **Backend:** Node.js, Express.js, MongoDB
 - **Real-time:** WebSockets, Redis, WebRTC
 - **Authentication:** JWT, Nodemailer, SMTP
-- - **Libraries & Frameworks:** Peer.js, Chat.js,Rc-mentions, Moment
+- **Libraries & Frameworks:** Cloudinary, Peer.js, Chat.js,Rc-mentions, Moment
 - **DevOps & Deployment:** Docker, Turborepo, Aiven Cloud
 
 ## 🚀 Demo User ID and Password
