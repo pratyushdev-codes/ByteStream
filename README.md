@@ -1,4 +1,6 @@
-![mockup4 ](https://github.com/user-attachments/assets/81a0833b-6ec0-4b06-8134-7f6e1a51a505)# ByteStream
+![mockup1](https://github.com/user-attachments/assets/ba4a49c9-067c-4200-8849-d3fc314eba95)
+
+# ByteStream
 
 \
 *Byte Stream is a Synergized Work Platform that serves as a Unified Workplace Solution.*
@@ -8,7 +10,7 @@
 Byte Stream is a high-performance, unified workplace product management solution built with **MERN, WebSockets, Redux, Redis, Turborepo, and WebRTC**. Designed to streamline workflows, Byte Stream enhances productivity by **70%** through real-time collaboration, high-speed messaging, and integrated video conferencing.
 
 
-| Image 1 | Image 2 |
+| App Image 1 | App Image 2 |
 |---------|---------|
 | ![mockup4](https://github.com/user-attachments/assets/c9318170-6c32-4aa6-bec6-1183bd648fde) | ![mockup3](https://github.com/user-attachments/assets/dbb9291a-e648-4255-a1b4-4fff338efd3f) |
            
