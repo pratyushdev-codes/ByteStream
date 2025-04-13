@@ -50,7 +50,7 @@ Byte Stream is a high-performance, unified workplace product management solution
 <img width="1470" alt="image" src="https://github.com/user-attachments/assets/ab61adae-c2f5-43a4-92ad-3fe11ad7d4ed" />
 <img width="1470" alt="image" src="https://github.com/user-attachments/assets/d1fa2b1f-c5fc-4192-86f0-1f923e7efd54" />
 <img width="1470" alt="image" src="https://github.com/user-attachments/assets/b31a5f24-90a9-416d-abb1-dd25d45f4296" />
-![image](https://github.com/user-attachments/assets/48b5dfb8-9362-445a-9ffb-ad52d7b24b57)
+
 <img width="1470" alt="image" src="https://github.com/user-attachments/assets/237414da-fc6d-4c0c-9600-e16254125b76" />
 
 
