@@ -10,8 +10,7 @@
 Byte Stream is a high-performance, unified workplace product management solution built with **MERN, WebSockets, Redux, Redis, Turborepo, and WebRTC**. Designed to streamline workflows, Byte Stream enhances productivity by **70%** through real-time collaboration, high-speed messaging, and integrated video conferencing.
 
 
-| App Image 1 | App Image 2 |
-|---------|---------|
+
 | ![mockup4](https://github.com/user-attachments/assets/c9318170-6c32-4aa6-bec6-1183bd648fde) | ![mockup3](https://github.com/user-attachments/assets/dbb9291a-e648-4255-a1b4-4fff338efd3f) |
            
 
