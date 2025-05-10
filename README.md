@@ -1,6 +1,7 @@
-<img width="1143" alt="Screenshot 2025-05-10 at 7 18 13 PM" src="https://github.com/user-attachments/assets/31c2561d-6603-4bcf-9e99-bf48eae9d5d9" />
+
 
 # ByteStream
+<img width="1143" alt="Screenshot 2025-05-10 at 7 18 13 PM" src="https://github.com/user-attachments/assets/31c2561d-6603-4bcf-9e99-bf48eae9d5d9" />
 
 \
 *Byte Stream is a Synergized Work Platform that serves as a Unified Workplace Solution.*
