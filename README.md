@@ -1,4 +1,4 @@
-![mockup1](https://github.com/user-attachments/assets/ba4a49c9-067c-4200-8849-d3fc314eba95)
+<img width="1143" alt="Screenshot 2025-05-10 at 7 18 13 PM" src="https://github.com/user-attachments/assets/31c2561d-6603-4bcf-9e99-bf48eae9d5d9" />
 
 # ByteStream
 
@@ -74,6 +74,7 @@ Password: 12345
 
 Give this repo a ⭐ if you found it useful!
 
+![mockup1](https://github.com/user-attachments/assets/ba4a49c9-067c-4200-8849-d3fc314eba95)
 
 
 
